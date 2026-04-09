@@ -22,7 +22,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY . .
 #Execute symfony scripts (composer.json)
-#RUN php bin/console cache:clear
+RUN php bin/console cache:clear
 RUN mkdir -p var vendor && chown -R www-data:www-data var vendor && chmod -R 775 var vendor
 
 FROM php:8.4-fpm as prod

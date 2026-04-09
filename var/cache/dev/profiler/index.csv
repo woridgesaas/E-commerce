@@ -1,3 +1,16 @@
 483617,172.24.0.1,GET,http://localhost/,1775744629,,404,request
 ef414a,172.24.0.1,GET,http://localhost/,1775744635,,404,request
 90df2a,172.24.0.1,GET,http://localhost/,1775744639,,404,request
+ade16b,172.24.0.1,GET,http://localhost/,1775758762,,404,request
+98e7c0,172.24.0.1,GET,http://localhost/,1775758884,,404,request
+77e835,172.24.0.1,GET,http://localhost/lucky/number,1775758910,,200,request
+c23f21,172.24.0.1,GET,http://localhost/favicon.ico,1775758910,3986da,404,request
+3986da,172.24.0.1,GET,http://localhost/favicon.ico,1775758910,,404,request
+52dcc8,172.24.0.1,GET,http://localhost/lucky/number,1775758919,,200,request
+27a91d,172.24.0.1,GET,http://localhost/lucky/number,1775758921,,200,request
+95c0e7,172.24.0.1,GET,http://localhost/lucky/number,1775758923,,200,request
+530675,172.24.0.1,GET,http://localhost/,1775758928,,404,request
+5800b3,172.24.0.1,GET,http://localhost/,1775759273,,404,request
+a3a99b,172.24.0.1,GET,http://localhost/lucky/number,1775759449,,200,request
+1b7bb0,172.24.0.1,GET,http://localhost/favicon.ico,1775759449,36efc0,404,request
+36efc0,172.24.0.1,GET,http://localhost/favicon.ico,1775759449,,404,request
