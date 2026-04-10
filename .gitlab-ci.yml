@@ -1,0 +1,39 @@
+image: docker:24.0.5
+services:
+    - docker:24.0.5-dind
+
+stages:
+    - build
+    - test
+    - push
+    - deploy
+
+variables:
+    IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
+build-job:
+    stage: build
+    script:
+        - echo "Building the new image ..."
+        - docker build -t $IMAGE_NAME -f ./infra/php/Dockerfile .
+    artifacts:
+        paths:
+            - docker-image-info.txt
+
+test-job:
+    stage: test
+    image: $IMAGE_NAME
+    script:
+        - ehco "Running unit tests"
+        - php bin/phpunit --testsuite=Unit
+
+
+push-job:
+    stage: push
+    before_script:
+        - "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+    script:
+        - echo "pushing the image to gitlab registry with name "+ $IMAGE_NAME
+        - docker push $IMAGE_NAME
+    only:
+        - main

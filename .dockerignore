@@ -1,7 +1,7 @@
 # Git
 .git
 .gitignore
-
+Makefile
 # Docker
 docker-compose.yml
 Dockerfile
@@ -13,8 +13,8 @@ Dockerfile
 
 
 # Env files
-.env.local
-.env.*.local
+#.env.local
+#.env.*.local
 
 # Tests / cache
 .phpunit.result.cache

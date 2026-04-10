@@ -11,6 +11,11 @@ services:
       - .env.local
     depends_on:
       - woridge.database
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(extension_loaded('pdo_mysql') ? 0 : 1);"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
     networks:
       - mailer-network
       - woridge-ecomm-network
@@ -38,6 +43,11 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "${MYSQL_PORT}:3306"
     volumes:
