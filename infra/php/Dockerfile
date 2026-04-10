@@ -28,6 +28,11 @@ RUN mkdir -p var vendor && chown -R www-data:www-data var vendor && chmod -R 775
 FROM php:8.4-fpm as prod
 
 WORKDIR /var/www/html
+
+
+COPY --from=build /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=build /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+
 COPY --from=build /usr/bin/composer /usr/bin/composer
 COPY --from=build /var/www/html /var/www/html
 
