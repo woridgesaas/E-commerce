@@ -22,8 +22,6 @@ build-job:
         paths:
             - $IMAGE_TAR
         expire_in: 1 hour
-    tags:
-        - docker
 
 test-job:
     stage: test
@@ -36,9 +34,6 @@ test-job:
         reports:
             junit: var/log/phpunit.junit.xml
         expire_in: 30 days
-    tags:
-        - docker
-
 
 push-job:
     stage: push
