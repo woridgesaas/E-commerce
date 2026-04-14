@@ -15,7 +15,12 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
-        '/lucky/number' => [[['_route' => 'app_lucky_number', '_controller' => 'App\\Controller\\LuckyController::number'], null, null, null, false, false, null]],
+        '/admin' => [[['_route' => 'app_admin_dashboard', '_controller' => 'App\\UI\\Web\\Controller\\AdminController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/api/me' => [[['_route' => 'api_me', '_controller' => 'App\\UI\\Web\\Controller\\ApiProfileController::me'], null, ['GET' => 0], null, false, false, null]],
+        '/register' => [[['_route' => 'app_register', '_controller' => 'App\\UI\\Web\\Controller\\AuthController::register'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/dashboard' => [[['_route' => 'app_dashboard', '_controller' => 'App\\UI\\Web\\Controller\\DashboardController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/login' => [[['_route' => 'app_login', '_controller' => 'App\\UI\\Web\\Controller\\SecurityController::login'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\UI\\Web\\Controller\\SecurityController::logout'], null, ['GET' => 0], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

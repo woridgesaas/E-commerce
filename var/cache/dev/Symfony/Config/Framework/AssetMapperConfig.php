@@ -28,7 +28,7 @@ class AssetMapperConfig
     private $_usedProperties = [];
 
     /**
-     * @default false
+     * @default true
      * @param ParamConfigurator|bool $value
      * @return $this
      */
@@ -186,7 +186,7 @@ class AssetMapperConfig
 
     /**
      * Precompress assets with Brotli, Zstandard and gzip.
-     * @default {"enabled":false,"formats":[],"extensions":[]}
+     * @default {"enabled":false,"formats":[],"extensions":["css","cur","eot","html","js","json","md","otc","otf","proto","rss","rtf","svg","ttc","ttf","txt","wasm","xml"]}
     */
     public function precompress(array $value = []): \Symfony\Config\Framework\AssetMapper\PrecompressConfig
     {
