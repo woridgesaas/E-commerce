@@ -15,6 +15,21 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Kernel.php'
+
+    # Listener d'exception global
+    App\UI\Web\Exception\GlobalExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+     # Binding explicite de l'interface vers l'implémentation
+    App\Application\User\Port\PasswordHasherInterface:
+        class: App\Infrastructure\Security\SymfonyPasswordHasher
+
+    App\Domain\User\Repository\UserRepositoryInterface:
+        class: App\Infrastructure\Persistence\Doctrine\Repository\DoctrineUserRepository
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
