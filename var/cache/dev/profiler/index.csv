@@ -166,3 +166,7 @@ e5ddfa,172.20.0.1,GET,http://localhost:8009/login,1776227483,,200,request
 a8902c,172.20.0.1,GET,http://localhost:8009/forgot-password,1776227515,,200,request
 f277e3,172.20.0.1,GET,http://localhost:8009/reset-password/dd0cd7f905c62d35571c9622fe30024f15ddd0ed65c2d3ffd2978c88acb381cf,1776227535,,200,request
 2e1a31,172.20.0.1,GET,http://localhost:8009/register,1776227559,,200,request
+d96450,172.20.0.1,GET,http://localhost:8009/login,1776229176,,200,request
+492c3b,172.20.0.1,GET,http://localhost:8009/favicon.ico,1776229176,e2123c,404,request
+e2123c,172.20.0.1,GET,http://localhost:8009/favicon.ico,1776229176,,404,request
+0133eb,172.20.0.1,GET,http://localhost:8009/register,1776230583,,200,request
