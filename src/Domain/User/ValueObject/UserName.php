@@ -13,11 +13,11 @@ final class UserName
         $value = trim($value);
 
         if ($value === '') {
-            throw new InvalidUserNameException();
+            throw new InvalidUserNameException('The name cannot be empty.');
         }
 
         if (mb_strlen($value) < 2 || mb_strlen($value) > 100) {
-            throw new InvalidUserNameException('Le nom doit contenir entre 2 et 100 caractères.');
+            throw new InvalidUserNameException('The name must be between 2 and 100 characters.');
         }
 
         $this->value = $value;

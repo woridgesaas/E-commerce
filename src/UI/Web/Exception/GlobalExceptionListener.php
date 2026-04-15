@@ -7,9 +7,8 @@ use App\Domain\User\Exception\InvalidUserNameException;
 use App\Domain\User\Exception\UserAlreadyExistsException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 final class GlobalExceptionListener
 {
@@ -21,7 +20,6 @@ final class GlobalExceptionListener
     {
         $exception = $event->getThrowable();
 
-        // ✅ Vérifie si c'est une exception métier
         if (!$this->isHandled($exception)) {
             return;
         }
@@ -32,18 +30,14 @@ final class GlobalExceptionListener
             return;
         }
 
-        // Session propre (fix IDE + safe runtime)
         /** @var Session $session */
         $session = $request->getSession();
         $session->getFlashBag()->add('error', $exception->getMessage());
 
-        // ✅ Redirection
         $referer = $request->headers->get('referer') ?? '/register';
-
         $event->setResponse(new RedirectResponse($referer));
     }
 
-    // 🔥 meilleure lisibilité (niveau senior)
     private function isHandled(\Throwable $exception): bool
     {
         return $exception instanceof UserAlreadyExistsException

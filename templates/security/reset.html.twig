@@ -1,0 +1,25 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Réinitialisation{% endblock %}
+
+{% block content %}
+
+<h3 class="auth-title"> Nouveau mot de passe</h3>
+
+{{ form_start(form) }}
+
+<div class="mb-3">
+    <label class="form-label">Mot de passe</label>
+    {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Confirmer</label>
+    {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<button class="auth-btn">Changer</button>
+
+{{ form_end(form) }}
+
+{% endblock %}

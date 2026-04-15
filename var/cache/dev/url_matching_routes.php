@@ -18,6 +18,7 @@ return [
         '/admin' => [[['_route' => 'app_admin_dashboard', '_controller' => 'App\\UI\\Web\\Controller\\AdminController::index'], null, ['GET' => 0], null, false, false, null]],
         '/api/me' => [[['_route' => 'api_me', '_controller' => 'App\\UI\\Web\\Controller\\ApiProfileController::me'], null, ['GET' => 0], null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\UI\\Web\\Controller\\AuthController::register'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/forgot-password' => [[['_route' => 'app_forgot_password', '_controller' => 'App\\UI\\Web\\Controller\\AuthController::forgot'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/dashboard' => [[['_route' => 'app_dashboard', '_controller' => 'App\\UI\\Web\\Controller\\DashboardController::index'], null, ['GET' => 0], null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\UI\\Web\\Controller\\SecurityController::login'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\UI\\Web\\Controller\\SecurityController::logout'], null, ['GET' => 0], null, false, false, null]],
@@ -42,6 +43,7 @@ return [
                         .')'
                     .')'
                 .')'
+                .'|/reset\\-password/([^/]++)(*:227)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -52,8 +54,9 @@ return [
         148 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
         168 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        191 => [
-            [['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null],
+        191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        227 => [
+            [['_route' => 'app_reset_password', '_controller' => 'App\\UI\\Web\\Controller\\AuthController::reset'], ['token'], ['GET' => 0, 'POST' => 1], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

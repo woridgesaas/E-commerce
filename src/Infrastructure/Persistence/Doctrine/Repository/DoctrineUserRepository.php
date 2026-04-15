@@ -13,7 +13,7 @@ class DoctrineUserRepository implements UserRepositoryInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly UserMapper $mapper
+        private readonly UserMapper             $mapper
     ) {}
 
     public function save(User $user): void
@@ -36,16 +36,26 @@ class DoctrineUserRepository implements UserRepositoryInterface
 
     public function findByEmail(Email $email): ?User
     {
-        $doctrineUser = $this->em
+        $entity = $this->em
             ->getRepository(UserDoctrine::class)
             ->findOneBy(['email' => $email->value()]);
 
-        return $doctrineUser ? $this->mapper->toDomain($doctrineUser) : null;
+        return $entity ? $this->mapper->toDomain($entity) : null;
     }
 
     public function findById(int $id): ?User
     {
-        $doctrineUser = $this->em->getRepository(UserDoctrine::class)->find($id);
-        return $doctrineUser ? $this->mapper->toDomain($doctrineUser) : null;
+        $entity = $this->em->getRepository(UserDoctrine::class)->find($id);
+        return $entity ? $this->mapper->toDomain($entity) : null;
+    }
+
+    public function findByResetToken(string $token): ?User
+    {
+        // FIX: was calling $this->mapToDomain() which doesn't exist
+        $entity = $this->em
+            ->getRepository(UserDoctrine::class)
+            ->findOneBy(['resetToken' => $token]);
+
+        return $entity ? $this->mapper->toDomain($entity) : null;
     }
 }
