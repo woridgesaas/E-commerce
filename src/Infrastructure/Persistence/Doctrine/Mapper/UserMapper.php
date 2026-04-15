@@ -9,31 +9,35 @@ use App\Infrastructure\Persistence\Doctrine\Entity\UserDoctrine;
 
 class UserMapper
 {
-    public function toDomain(UserDoctrine $e): User
+    public function toDomain(UserDoctrine $entity): User
     {
         return User::reconstitute(
-            $e->getId(),
-            new UserName($e->getFirstName()),
-            new UserName($e->getLastName()),
-            new Email($e->getEmail()),
-            $e->getPassword(),
-            $e->getRole()
+            id:                  $entity->getId(),
+            firstName:           new UserName($entity->getFirstName()),
+            lastName:            new UserName($entity->getLastName()),
+            email:               new Email($entity->getEmail()),
+            password:            $entity->getPassword(),
+            role:                $entity->getRole(),
+            resetToken:          $entity->getResetToken(),
+            resetTokenExpiresAt: $entity->getResetTokenExpiresAt()
         );
     }
 
     public function toDoctrine(User $user): UserDoctrine
     {
-        $e = new UserDoctrine();
-        $this->fillDoctrineFromDomain($user, $e);
-        return $e;
+        $entity = new UserDoctrine();
+        $this->fillDoctrineFromDomain($user, $entity);
+        return $entity;
     }
 
-    public function fillDoctrineFromDomain(User $user, UserDoctrine $e): void
+    public function fillDoctrineFromDomain(User $user, UserDoctrine $entity): void
     {
-        $e->setFirstName($user->getFirstName()->value());
-        $e->setLastName($user->getLastName()->value());
-        $e->setEmail($user->getEmail()->value());
-        $e->setPassword($user->getPassword());
-        $e->setRole($user->getRole());
+        $entity->setFirstName($user->getFirstName()->value());
+        $entity->setLastName($user->getLastName()->value());
+        $entity->setEmail($user->getEmail()->value());
+        $entity->setPassword($user->getPassword());
+        $entity->setRole($user->getRole());
+        $entity->setResetToken($user->getResetToken());
+        $entity->setResetTokenExpiresAt($user->getResetTokenExpiresAt());
     }
 }

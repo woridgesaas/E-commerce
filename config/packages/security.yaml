@@ -25,8 +25,14 @@ security:
                 target: app_login
 
     access_control:
-        - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: ROLE_USER }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/register,        roles: PUBLIC_ACCESS }
+        - { path: ^/login,           roles: PUBLIC_ACCESS }
+        - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
+        - { path: ^/reset-password,  roles: PUBLIC_ACCESS }
+        - { path: ^/test-email, roles: PUBLIC_ACCESS }
+        - { path: ^/api,             roles: ROLE_USER }
+        - { path: ^/admin,           roles: ROLE_ADMIN }
+        - { path: ^/,                roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER

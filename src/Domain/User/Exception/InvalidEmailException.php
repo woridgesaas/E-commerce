@@ -6,6 +6,6 @@ class InvalidEmailException extends \DomainException
 {
     public function __construct()
     {
-        parent::__construct('Adresse email invalide.');
+        parent::__construct('Invalid email address..');
     }
 }

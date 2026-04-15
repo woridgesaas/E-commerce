@@ -8,38 +8,45 @@ final class RegisterUserInput
 {
     public function __construct(
 
-        #[Assert\NotBlank(message: 'Le prénom est obligatoire.')]
-        #[Assert\Length(min: 2, max: 100, minMessage: 'Minimum {{ limit }} caractères.')]
-        #[Assert\Regex(
-            pattern: '/^[\p{L}\s\-]+$/u',
-            message: 'Le prénom ne peut contenir que des lettres.'
-        )]
-        public string $firstName,
-
-        #[Assert\NotBlank(message: 'Le nom est obligatoire.')]
-        #[Assert\Length(min: 2, max: 100, minMessage: 'Minimum {{ limit }} caractères.')]
-        #[Assert\Regex(
-            pattern: '/^[\p{L}\s\-]+$/u',
-            message: 'Le nom ne peut contenir que des lettres.'
-        )]
-        public string $lastName,
-
-        #[Assert\NotBlank(message: "L'email est obligatoire.")]
-        #[Assert\Email(message: "L'adresse email '{{ value }}' est invalide.")]
-        #[Assert\Length(max: 150)]
-        public string $email,
-
-        #[Assert\NotBlank(message: 'Le mot de passe est obligatoire.')]
+        #[Assert\NotBlank(message: 'The first name is required.')]
         #[Assert\Length(
-            min: 8,
-            max: 4096,
-            minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.'
+            min: 2, max: 100,
+            minMessage: 'Minimum {{ limit }} characters.',
+            maxMessage: 'Maximum {{ limit }} characters.'
+        )]
+        #[Assert\Regex(
+            pattern: '/^[\p{L}\s\-]+$/u',
+            message: 'The first name can only contain letters.'
+        )]
+        public readonly string $firstName,
+
+        #[Assert\NotBlank(message: 'The last name is required.')]
+        #[Assert\Length(
+            min: 2, max: 100,
+            minMessage: 'Minimum {{ limit }} characters.',
+            maxMessage: 'Maximum {{ limit }} characters.'
+        )]
+        #[Assert\Regex(
+            pattern: '/^[\p{L}\s\-]+$/u',
+            message: 'The last name can only contain letters.'
+        )]
+        public readonly string $lastName,
+
+        #[Assert\NotBlank(message: 'The email is required.')]
+        #[Assert\Email(message: 'The email address is not valid.')]
+        #[Assert\Length(max: 150)]
+        public readonly string $email,
+
+        #[Assert\NotBlank(message: 'The password is required.')]
+        #[Assert\Length(
+            min: 8, max: 4096,
+            minMessage: 'The password must be at least {{ limit }} characters.'
         )]
         #[Assert\Regex(
             pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
-            message: 'Le mot de passe doit contenir une majuscule, une minuscule et un chiffre.'
+            message: 'The password must contain an uppercase letter, a lowercase letter and a number.'
         )]
-        public string $password
+        public readonly string $password
 
     ) {}
 }
