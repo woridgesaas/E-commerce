@@ -1,42 +1,36 @@
-<footer class="bg-dark text-white mt-5 pt-4 pb-3">
-  <div class="container">
+<footer class="footer-section mt-5">
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h5 class="fw-bold mb-3">Woridge</h5>
+                <p class="footer-text">
+                    Plateforme SaaS moderne dédiée à la digitalisation des services RH,
+                    la gestion intelligente du pointage RFID et l’automatisation des processus internes.
+                </p>
+            </div>
 
-    <div class="row">
+            <div class="col-md-4">
+                <h6 class="fw-bold mb-3">Navigation</h6>
+                <ul class="list-unstyled footer-links">
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#product">Produit RFID</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#plans">Abonnements</a></li>
+                </ul>
+            </div>
 
-      <!-- Logo / Description -->
-      <div class="col-md-4">
-        <h5 class="fw-bold">🔷 Woridge</h5>
-        <p class="text-muted small">
-          Plateforme SaaS moderne pour gérer vos utilisateurs et services efficacement.
-        </p>
-      </div>
+            <div class="col-md-4">
+                <h6 class="fw-bold mb-3">Contact</h6>
+                <p class="footer-text mb-1">Email : support@woridge.com</p>
+                <p class="footer-text mb-1">Localisation : Maroc</p>
+                <p class="footer-text">Solution pensée pour les entreprises modernes.</p>
+            </div>
+        </div>
 
-      <!-- Links -->
-      <div class="col-md-4">
-        <h6 class="fw-bold">Navigation</h6>
-        <ul class="list-unstyled small">
-          <li><a href="#" class="text-muted text-decoration-none">À propos</a></li>
-          <li><a href="#" class="text-muted text-decoration-none">Notre produit</a></li>
-          <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
-        </ul>
-      </div>
+        <hr class="my-4">
 
-      <!-- Contact -->
-      <div class="col-md-4">
-        <h6 class="fw-bold">Contact</h6>
-        <p class="small text-muted">
-           support@woridge.com <br>
-         Maroc
-        </p>
-      </div>
-
+        <div class="text-center small footer-copy">
+            © {{ "now"|date("Y") }} Woridge. Tous droits réservés.
+        </div>
     </div>
-
-    <hr class="border-secondary">
-
-    <div class="text-center small text-muted">
-      © {{ "now"|date("Y") }} Woridge. Tous droits réservés.
-    </div>
-
-  </div>
 </footer>

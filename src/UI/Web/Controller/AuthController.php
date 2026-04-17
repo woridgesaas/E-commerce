@@ -41,14 +41,13 @@ class AuthController extends AbstractController
             try {
                 $service->execute(new RegisterUserInput(
                     firstName: $data['firstName'],
-                    lastName:  $data['lastName'],
-                    email:     strtolower(trim($data['email'])),
-                    password:  $data['password']
+                    lastName: $data['lastName'],
+                    email: strtolower(trim($data['email'])),
+                    password: $data['password']
                 ));
 
                 $this->addFlash('success', 'Account created successfully!');
                 return $this->redirectToRoute('app_login');
-
             } catch (\DomainException $e) {
                 $this->addFlash('error', $e->getMessage());
             }
@@ -68,49 +67,49 @@ class AuthController extends AbstractController
         UserRepositoryInterface $repo,
         MailerInterface $mailer
     ): Response {
-       if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
 
-    $emailInput = strtolower(trim($request->request->get('email')));
+            $emailInput = strtolower(trim($request->request->get('email')));
 
-    try {
-        $user = $repo->findByEmail(new UserEmail($emailInput));
-    } catch (\Exception) {
-        $user = null;
-    }
+            try {
+                $user = $repo->findByEmail(new UserEmail($emailInput));
+            } catch (\Exception) {
+                $user = null;
+            }
 
-    if ($user) {
-        $token = bin2hex(random_bytes(32));
+            if ($user) {
+                $token = bin2hex(random_bytes(32));
 
-        $user->requestPasswordReset(
-            $token,
-            new \DateTimeImmutable('+1 hour')
-        );
+                $user->requestPasswordReset(
+                    $token,
+                    new \DateTimeImmutable('+1 hour')
+                );
 
-        $repo->save($user);
+                $repo->save($user);
 
-        $link = $this->generateUrl(
-            'app_reset_password',
-            ['token' => $token],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
+                $link = $this->generateUrl(
+                    'app_reset_password',
+                    ['token' => $token],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
 
-        $html = $this->renderView('security/emails/reset_password.html.twig', [
-            'link' => $link,
-            'user' => $user,
-        ]);
+                $html = $this->renderView('security/emails/reset_password.html.twig', [
+                    'link' => $link,
+                    'user' => $user,
+                ]);
 
-        $email = (new MimeEmail())
-            ->from('zeroualisafae16@gmail.com')
-            ->to($emailInput)
-            ->subject('Reset your password')
-            ->html($html);
+                $email = (new MimeEmail())
+                    ->from('zeroualisafae16@gmail.com')
+                    ->to($user->getEmail()->value())
+                    ->subject('Reset your password')
+                    ->html($html);
 
-        $mailer->send($email);
-    }
+                $mailer->send($email);
+            }
 
-    $this->addFlash('success', 'If email exists, link sent');
-    return $this->redirectToRoute('app_login');
-}
+            $this->addFlash('success', 'If email exists, link sent');
+            return $this->redirectToRoute('app_login');
+        }
 
         return $this->render('security/forgot.html.twig');
     }
@@ -156,6 +155,4 @@ class AuthController extends AbstractController
             'token' => $token,
         ]);
     }
-
-   
 }

@@ -1,0 +1,4 @@
+Invalid credentials.: Email ou mot de passe incorrect
+Invalid CSRF token.: Jeton CSRF invalide
+Username could not be found.: Email introuvable
+Account is disabled.: Compte désactivé
