@@ -63,7 +63,7 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: ecommerce_phpmyadmin
     ports:
-      - "8081:80"
+      - "8088:80"
     environment:
       PMA_HOST: administrative_database
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}

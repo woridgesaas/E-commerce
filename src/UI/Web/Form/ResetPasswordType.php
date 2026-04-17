@@ -15,7 +15,7 @@ class ResetPasswordType extends AbstractType
     {
         $builder->add('password', RepeatedType::class, [
             'type'            => PasswordType::class,
-            'invalid_message' => 'Passwords must match.',
+            'invalid_message' => 'Les mots de passe doivent correspondre.',
             'required'        => true,
             'first_options'   => [
                 'label' => false,
@@ -24,14 +24,14 @@ class ResetPasswordType extends AbstractType
                     'class'       => 'form-control',
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(message: 'The password is required.'),
+                    new Assert\NotBlank(message: 'Le mot de passe est obligatoire.'),
                     new Assert\Length(
                         min: 8,
-                        minMessage: 'The password must be at least {{ limit }} characters.'
+                        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.'
                     ),
                     new Assert\Regex(
                         pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
-                        message: 'The password must contain an uppercase letter, a lowercase letter and a number.'
+                        message: 'Le mot de passe doit contenir une lettre majuscule, une lettre minuscule et un chiffre.'
                     ),
                 ],
             ],

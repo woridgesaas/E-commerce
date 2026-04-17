@@ -3,6 +3,7 @@
 {% block title %}Inscription{% endblock %}
 
 {% block content %}
+
 <h3 class="auth-title">Inscription</h3>
 
 {{ form_start(form) }}
@@ -63,6 +64,11 @@
 
 <div class="text-center mt-3">
     <a href="{{ path('app_login') }}" class="auth-link">Se connecter</a>
+</div>
+<div class="auth-back-btn">
+    <a href="{{ path('app_home') }}">
+        ← Retour à l’accueil
+    </a>
 </div>
 {% endblock %}
 {% block scripts %}
