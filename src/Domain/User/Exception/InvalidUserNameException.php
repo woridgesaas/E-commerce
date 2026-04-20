@@ -2,10 +2,20 @@
 
 namespace App\Domain\User\Exception;
 
-class InvalidUserNameException extends \DomainException
+final class InvalidUserNameException extends \DomainException
 {
-    public function __construct(string $message = 'The name cannot be empty.')
+    public static function becauseEmpty(): self
     {
-        parent::__construct($message);
+        return new self('Le nom ne peut pas être vide.');
+    }
+
+    public static function becauseTooShort(string $value): self
+    {
+        return new self(sprintf('"%s" est trop court (minimum 2 caractères).', $value));
+    }
+
+    public static function becauseTooLong(string $value): self
+    {
+        return new self(sprintf('"%s" est trop long (maximum 100 caractères).', $value));
     }
 }

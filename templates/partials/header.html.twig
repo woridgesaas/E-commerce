@@ -1,15 +1,21 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
     <div class="container">
+
+        <!-- LOGO -->
         <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ path('app_home') }}">
             <img src="{{ asset('uploads/big-logo-nobg.png') }}" alt="logo" class="navbar-logo">
         </a>
 
+        <!-- TOGGLER MOBILE -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        <!-- NAVBAR -->
         <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
             <ul class="navbar-nav align-items-lg-center gap-lg-3">
+
+                <!-- MENU PUBLIC -->
                 <li class="nav-item">
                     <a class="nav-link" href="#about">À propos de nous</a>
                 </li>
@@ -23,26 +29,62 @@
                     <a class="nav-link" href="#plans">Abonnements</a>
                 </li>
 
+                <!-- ================= AUTH ================= -->
                 {% if app.user %}
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary px-3" href="{{ path('app_dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger px-3" href="{{ path('app_logout') }}">Se déconnecter</a>
-                    </li>
-                {% else %}
-<li class="nav-item">
-    <a class="btn btn-outline-light btn-modern-login" href="{{ path('app_login') }}">
-        Se connecter
-    </a>
-</li>
 
-<li class="nav-item">
-    <a class="btn btn-modern-register" href="{{ path('app_register') }}">
-        S’inscrire
-    </a>
-</li>
+                    <!-- ===== ADMIN ===== -->
+                    {% if is_granted('ROLE_ADMIN') %}
+
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary px-3" href="{{ path('admin_products') }}">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+
+                    <!-- ===== USER ===== -->
+                    {% else %}
+
+                        <li class="nav-item position-relative">
+                            <a href="{{ path('app_cart') }}" class="nav-link cart-icon" title="Mon panier">
+                                <i class="bi bi-cart3 fs-4"></i>
+
+                                <!-- badge -->
+                                <span class="cart-count">0</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary px-3" href="{{ path('app_dashboard') }}">
+                                Dashboard
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                    <!-- LOGOUT -->
+                    <li class="nav-item">
+                        <a class="btn btn-danger px-3" href="{{ path('app_logout') }}">
+                            Se déconnecter
+                        </a>
+                    </li>
+
+                <!-- ===== GUEST ===== -->
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light btn-modern-login" href="{{ path('app_login') }}">
+                            Se connecter
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="btn btn-modern-register" href="{{ path('app_register') }}">
+                            S’inscrire
+                        </a>
+                    </li>
+
                 {% endif %}
+
             </ul>
         </div>
     </div>

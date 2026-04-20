@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+    <div class="form-card mx-auto">
+    
+        <h2 class="form-title">Ajouter un produit</h2>
+
+        <form method="post" enctype="multipart/form-data">
+<div class="mb-3">
+                <label class="form-label">Type</label>
+                <select name="type" class="form-control custom-input" required>
+                    {# ↑ required sans guillemet en trop #}
+                    <option value="" disabled selected>Choisir un type...</option>
+                    {% for case in types %}
+                        <option value="{{ case.value }}">{{ case.label() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Nom du produit</label>
+                <input type="text" name="name" class="form-control custom-input"
+                       placeholder="Ex: Badge RFID" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control custom-input"
+                          rows="3" placeholder="Description du produit..."></textarea>
+            </div>
+
+            
+            <div class="mb-3">
+                <label class="form-label">Prix (MAD)</label>
+                <input type="number" step="0.01" min="0.01" name="price"
+                       class="form-control custom-input" placeholder="0.00" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Image</label>
+                <input type="file" name="image" class="form-control custom-input-file"
+                       accept="image/jpeg,image/png,image/webp" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold">
+                <i class="bi bi-plus-circle me-2"></i> Ajouter le produit
+            </button>
+
+            <a href="{{ path('admin_products') }}" class="btn btn-secondary w-100 mt-2">
+                Annuler
+            </a>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
