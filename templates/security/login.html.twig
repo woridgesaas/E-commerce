@@ -3,6 +3,11 @@
 {% block title %}Connexion{% endblock %}
 
 {% block content %}
+<div class="auth-header mb-3">
+   <a href="{{ path('app_home') }}" class="back-circle">
+    <i class="bi bi-arrow-left">  Retour à l'accueil</i>
+</a>
+</div>
 
 <h3 class="auth-title"> Connexion</h3>
 
@@ -43,9 +48,5 @@
 <div class="text-center mt-3">
     Pas de compte ? <a href="{{ path('app_register') }}" class="auth-link">S'inscrire</a>
 </div>
-<div class="auth-back-btn">
-    <a href="{{ path('app_home') }}">
-        ← Retour à l’accueil
-    </a>
-</div>
+
 {% endblock %}

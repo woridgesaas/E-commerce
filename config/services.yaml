@@ -31,5 +31,18 @@ services:
     App\Domain\User\Repository\UserRepositoryInterface:
         class: App\Infrastructure\Persistence\Doctrine\Repository\DoctrineUserRepository
 
+    App\Domain\Product\Repository\ProductRepositoryInterface:
+        class: App\Infrastructure\Persistence\Doctrine\Repository\DoctrineProductRepository
+
+    App\Infrastructure\Service\FileUploader:
+        arguments:
+            $uploadDir: '%kernel.project_dir%/public/uploads/products'
+
+    App\Application\Shared\Port\FileUploaderInterface:
+        alias: App\Infrastructure\Service\FileUploader
+   
+    App\Application\User\Service\PasswordResetMailerService:
+        arguments:
+            $fromEmail: '%env(MAILER_FROM)%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

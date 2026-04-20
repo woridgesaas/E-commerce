@@ -20,7 +20,9 @@
 </p>
 
             <div class="hero-buttons mt-4">
-                <a href="#" class="btn btn-primary me-2">Commencer</a>
+                <a href="{{ path('app_register') }}" class="btn btn-primary">
+    Essayer maintenant
+</a>
                 <a href="#plans" class="btn btn-outline">Voir abonnements</a>
             </div>
         </div>
@@ -87,7 +89,6 @@
     pour <strong>maximiser votre productivité et accélérer votre croissance</strong>.
 </p>
 
-                <a href="#" class="btn btn-primary mt-3">En savoir plus</a>
             </div>
 
         </div>
@@ -144,47 +145,49 @@
 <!-- ================= PRODUITS ================= -->
 <section id="product" class="section section-padding section-light">
     <div class="container text-center">
+
         <h2 class="section-title">Produits RFID</h2>
 
         <p class="section-text mx-auto">
-    Optimisez la gestion des accès et du pointage grâce à nos solutions RFID fiables, 
-    sécurisées et adaptées aux besoins des entreprises modernes.
-</p>
+            Optimisez la gestion des accès et du pointage grâce à nos solutions RFID fiables, 
+            sécurisées et adaptées aux besoins des entreprises modernes.
+        </p>
 
         <div class="row g-4 mt-4">
 
-            <div class="col-md-6">
-                <div class="product-card">
-                    <img src="{{ asset('uploads/product/rfid-reader.jfif') }}" class="product-image">
-                    <div class="product-body">
-                        <h5>Lecteur RFID</h5>
-<p>
-    Un dispositif performant permettant un contrôle d’accès rapide, 
-    sécurisé et une gestion précise des présences en temps réel.
-</p>
-                        <a href="#" class="btn btn-outline">Voir détails</a>
-                    </div>
-                </div>
-            </div>
+            {% for product in products %}
+                <div class="col-md-6">
+                    <div class="product-card">
 
-            <div class="col-md-6">
-                <div class="product-card">
-                    <img src="{{ asset('uploads/product/carte.png') }}" class="product-image">
-                    <div class="product-body">
-                        <h5>Badge RFID</h5>
-<p>
-    Badge intelligent garantissant une identification sécurisée 
-    et un accès contrôlé aux différentes zones de votre entreprise.
-</p>                        <a href="#" class="btn btn-outline">Voir détails</a>
+                        <img src="{{ asset('uploads/products/' ~ product.image) }}" class="product-image">
+
+                        <div class="product-body">
+
+                            <h5>{{ product.type.value }}</h5>
+
+                            <p>
+                                {{ product.description|slice(0, 120) ~ '...' }}
+                            </p>
+
+                            <a href="{{ path('product_show', {id: product.id}) }}" class="btn btn-outline">
+                                Voir détails
+                            </a>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-<div class="mt-5 text-center">
-    <a  class="btn btn-primary btn-lg more-products-btn">
-        <i class="bi bi-box-seam me-2"></i> Voir plus de produits
-    </a>
-</div>
+            {% else %}
+                <p>Aucun produit disponible</p>
+            {% endfor %}
+
         </div>
+
+        <div class="mt-5 text-center">
+            <a href="{{ path('product_list') }}" class="btn btn-primary btn-lg more-products-btn">
+                Voir plus de produits
+            </a>
+        </div>
+
     </div>
 </section>
 
