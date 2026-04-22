@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin — Woridge{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+
+    {# ── En-tête ── #}
+    <div class="d-flex align-items-center justify-content-between mb-5">
+        <div>
+            <h1 class="section-title mb-1">Tableau de bord</h1>
+            <p class="section-text mb-0">Bienvenue, {{ app.user.getUserIdentifier() }}</p>
+        </div>
+        <span class="badge bg-purple px-3 py-2" style="background:#7c3aed; border-radius:8px; font-size:13px;">
+            ROLE_ADMIN
+        </span>
+    </div>
+
+    {# ── Flash messages ── #}
+    {% for msg in app.flashes('success') %}
+        <div class="alert alert-success mb-4">{{ msg }}</div>
+    {% endfor %}
+    {% for msg in app.flashes('error') %}
+        <div class="alert alert-danger mb-4">{{ msg }}</div>
+    {% endfor %}
+
+    {# ── Statistiques rapides ── #}
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+            <div class="card-custom text-center p-4">
+                <i class="bi bi-box-seam why-icon d-block mb-2"></i>
+                <h3 class="fw-bold mb-1" style="font-size:2rem; color:#a855f7;">—</h3>
+                <p class="section-text mb-0">Produits</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-custom text-center p-4">
+                <i class="bi bi-people-fill why-icon d-block mb-2"></i>
+                <h3 class="fw-bold mb-1" style="font-size:2rem; color:#a855f7;">—</h3>
+                <p class="section-text mb-0">Utilisateurs</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-custom text-center p-4">
+                <i class="bi bi-cart-check why-icon d-block mb-2"></i>
+                <h3 class="fw-bold mb-1" style="font-size:2rem; color:#a855f7;">—</h3>
+                <p class="section-text mb-0">Commandes</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-custom text-center p-4">
+                <i class="bi bi-currency-euro why-icon d-block mb-2"></i>
+                <h3 class="fw-bold mb-1" style="font-size:2rem; color:#a855f7;">—</h3>
+                <p class="section-text mb-0">Revenus</p>
+            </div>
+        </div>
+
+    </div>
+
+    {# ── Accès rapides ── #}
+    <h2 class="section-title mb-4" style="font-size:22px;">Gestion</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card-custom p-4">
+                <i class="bi bi-box-seam service-icon mb-3 d-block"></i>
+                <h5 class="fw-bold mb-2">Produits</h5>
+                <p class="section-text mb-3">Ajouter, modifier ou supprimer des produits RFID.</p>
+                <a href="{{ path('admin_products') }}" class="btn btn-primary w-100">
+                    Gérer les produits
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-custom p-4">
+                <i class="bi bi-people-fill service-icon mb-3 d-block"></i>
+                <h5 class="fw-bold mb-2">Utilisateurs</h5>
+                <p class="section-text mb-3">Consulter et gérer les comptes utilisateurs.</p>
+                <a href="#" class="btn btn-outline w-100">
+                    Bientôt disponible
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-custom p-4">
+                <i class="bi bi-bar-chart-fill service-icon mb-3 d-block"></i>
+                <h5 class="fw-bold mb-2">Statistiques</h5>
+                <p class="section-text mb-3">Suivre les performances et les abonnements.</p>
+                <a href="#" class="btn btn-outline w-100">
+                    Bientôt disponible
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

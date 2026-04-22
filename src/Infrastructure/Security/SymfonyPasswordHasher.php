@@ -3,24 +3,28 @@
 namespace App\Infrastructure\Security;
 
 use App\Application\User\Port\PasswordHasherInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;  // ← manquait
 
-class SymfonyPasswordHasher implements PasswordHasherInterface
+final class SymfonyPasswordHasher implements PasswordHasherInterface
 {
-    public function __construct(
-        private readonly UserPasswordHasherInterface $hasher
-    ) {}
+    private readonly \Symfony\Component\PasswordHasher\PasswordHasherInterface $hasher;
+
+    public function __construct()
+    {
+        $factory = new PasswordHasherFactory([
+            'common' => ['algorithm' => 'bcrypt', 'cost' => 13],
+        ]);
+
+        $this->hasher = $factory->getPasswordHasher('common');
+    }
 
     public function hash(string $plainPassword): string
     {
-
-        $user = new SecurityUser('', '', []);
-        return $this->hasher->hashPassword($user, $plainPassword);
+        return $this->hasher->hash($plainPassword);
     }
 
     public function verify(string $hashedPassword, string $plainPassword): bool
     {
-        $user = new SecurityUser('', $hashedPassword, []);
-        return $this->hasher->isPasswordValid($user, $plainPassword);
+        return $this->hasher->verify($hashedPassword, $plainPassword);
     }
 }

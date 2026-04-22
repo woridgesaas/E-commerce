@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+
+<section class="section section-padding text-center">
+    <div class="container">
+
+        <h1 class="section-title">Mon panier</h1>
+
+        <p class="section-text mt-3">
+            Votre panier est actuellement vide.
+        </p>
+
+        <a href="{{ path('app_home') }}" class="btn btn-primary mt-4">
+            Continuer mes achats
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

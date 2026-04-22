@@ -7,13 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin')]
-#[IsGranted('ROLE_ADMIN')]
-final class AdminController extends AbstractController
+final class CartController extends AbstractController
 {
-    #[Route('', name: 'app_admin_dashboard', methods: ['GET'])]
+    #[Route('/cart', name: 'app_cart', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')] // sécurisé (optionnel mais conseillé)
     public function index(): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        return $this->render('cart/index.html.twig');
     }
 }

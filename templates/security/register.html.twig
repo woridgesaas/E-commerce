@@ -4,53 +4,59 @@
 
 {% block content %}
 
-<h3 class="auth-title">Inscription</h3>
+<div class="auth-header mb-3">
+    <a href="{{ path('app_home') }}" class="back-circle">
+        <i class="bi bi-arrow-left"></i>
+        <span>Retour à l'accueil</span>
+    </a>
+</div>
 
+<h3 class="auth-title mt-5">Inscription</h3>
 {{ form_start(form) }}
 
-<div class="mb-3 input-group position-relative">
-    <i class="bi bi-person"></i>
-    {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+{# Prénom #}
+<div class="mb-3 input-icon">
+    <i class="bi bi-person input-left-icon"></i>
+    {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Votre prénom'}}) }}
 </div>
 
-<div class="mb-3 input-group position-relative">
-    <i class="bi bi-person"></i>
-    {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+{# Nom #}
+<div class="mb-3 input-icon">
+    <i class="bi bi-person-fill input-left-icon"></i>
+    {{ form_widget(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Votre nom'}}) }}
 </div>
 
-<div class="mb-3 input-group position-relative">
-    <i class="bi bi-envelope"></i>
-    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+{# Email #}
+<div class="mb-3 input-icon">
+    <i class="bi bi-envelope input-left-icon"></i>
+    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'exemple@mail.com'}}) }}
 </div>
 
-<div class="mb-2 input-group position-relative">
-    <i class="bi bi-lock"></i>
-
-    <div class="password-wrapper">
-        {{ form_widget(form.password.first, {
-            'attr': {'class': 'form-control'}
-        }) }}
-
-        <span class="toggle-password">👁</span>
-    </div>
+{# Password 1 #}
+<div class="mb-1 input-icon password-field">
+    <i class="bi bi-lock input-left-icon"></i>
+    {{ form_widget(form.password.first, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+    <span class="toggle-password">
+        <i class="bi bi-eye"></i>
+    </span>
 </div>
+
 <div class="strength-meter mb-1">
     <div id="strength-bar"></div>
 </div>
 <small id="strength-text" class="d-block mb-3"></small>
-<div class="mb-2 input-group position-relative">
-    <i class="bi bi-lock"></i>
 
-    <div class="password-wrapper">
-        {{ form_widget(form.password.second, {
-            'attr': {'class': 'form-control'}
-        }) }}
-
-        <span class="toggle-password">👁</span>
-    </div>
+{# Password 2 #}
+<div class="mb-2 input-icon password-field">
+    <i class="bi bi-lock-fill input-left-icon"></i>
+    {{ form_widget(form.password.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+    <span class="toggle-password">
+        <i class="bi bi-eye"></i>
+    </span>
 </div>
 
 <small id="match-error" class="text-danger d-none d-block mb-2">
+    <i class="bi bi-exclamation-circle me-1"></i>
     Les mots de passe ne correspondent pas
 </small>
 
@@ -58,88 +64,74 @@
     {{ form_errors(form.password) }}
 </div>
 
-<button type="submit" class="auth-btn mt-2">Créer</button>
+<button type="submit" class="auth-btn mt-2">
+    <i class="bi bi-person-check me-2"></i>Créer
+</button>
 
 {{ form_end(form) }}
 
 <div class="text-center mt-3">
-    <a href="{{ path('app_login') }}" class="auth-link">Se connecter</a>
-</div>
-<div class="auth-back-btn">
-    <a href="{{ path('app_home') }}">
-        ← Retour à l’accueil
+    Déjà un compte ? <a href="{{ path('app_login') }}" class="auth-link">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
     </a>
 </div>
+
 {% endblock %}
+
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
     const password = document.querySelector('input[name="register[password][first]"]');
     const confirmPassword = document.querySelector('input[name="register[password][second]"]');
-
     const bar = document.getElementById("strength-bar");
     const text = document.getElementById("strength-text");
     const matchError = document.getElementById("match-error");
 
-    // ===== PASSWORD STRENGTH =====
     if (password && bar && text) {
-    password.addEventListener("input", () => {
-        let strength = 0;
-        const val = password.value;
+        password.addEventListener("input", () => {
+            let strength = 0;
+            const val = password.value;
+            if (val.length >= 8) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[a-z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[\W]/.test(val)) strength++;
 
-        if (val.length >= 8) strength++;
-        if (/[A-Z]/.test(val)) strength++;
-        if (/[a-z]/.test(val)) strength++;
-        if (/[0-9]/.test(val)) strength++;
-        if (/[\W]/.test(val)) strength++;
+            const percent = (strength / 5) * 100;
+            bar.style.width = percent + "%";
 
-        const percent = (strength / 5) * 100;
-        bar.style.width = percent + "%";
-
-        if (strength <= 2) {
-            bar.style.background = "red";
-            text.textContent = "Faible";
-            text.style.color = "red";
-        } else if (strength <= 4) {
-            bar.style.background = "orange";
-            text.textContent = "Moyen";
-            text.style.color = "orange";
-        } else {
-            bar.style.background = "green";
-            text.textContent = "Fort";
-            text.style.color = "limegreen";
-        }
-    });
-}
-
-    // ===== MATCH PASSWORD =====
-    if (confirmPassword && password && matchError) {
-        confirmPassword.addEventListener("input", () => {
-            if (confirmPassword.value !== password.value) {
-                matchError.classList.remove("d-none");
+            if (strength <= 2) {
+                bar.style.background = "#ef4444";
+                text.textContent = "Faible";
+                text.style.color = "#ef4444";
+            } else if (strength <= 4) {
+                bar.style.background = "orange";
+                text.textContent = "Moyen";
+                text.style.color = "orange";
             } else {
-                matchError.classList.add("d-none");
+                bar.style.background = "#22c55e";
+                text.textContent = "Fort";
+                text.style.color = "#22c55e";
             }
         });
     }
 
-    // ===== SHOW / HIDE PASSWORD =====
-    document.querySelectorAll('.password-wrapper').forEach(wrapper => {
-        const input = wrapper.querySelector('input');
-        const toggle = wrapper.querySelector('.toggle-password');
+    if (confirmPassword && password && matchError) {
+        confirmPassword.addEventListener("input", () => {
+            matchError.classList.toggle("d-none", confirmPassword.value === password.value);
+        });
+    }
 
+    document.querySelectorAll('.toggle-password').forEach(toggle => {
         toggle.addEventListener('click', () => {
-            if (input.type === 'password') {
-                input.type = 'text';
-                toggle.textContent = '👁';
-            } else {
-                input.type = 'password';
-                toggle.textContent = '👁';
-            }
+            const wrapper = toggle.closest('.password-field');
+            const input = wrapper.querySelector('input');
+            const icon = toggle.querySelector('i');
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            icon.className = isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
         });
     });
-
 });
 </script>
 {% endblock %}

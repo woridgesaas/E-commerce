@@ -28,18 +28,36 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-     # Binding explicite de l'interface vers l'implémentation
+    # Binding explicite de l'interface vers l'implémentation
     App\Application\User\Port\PasswordHasherInterface:
         class: App\Infrastructure\Security\SymfonyPasswordHasher
 
     App\Domain\User\Repository\UserRepositoryInterface:
         class: App\Infrastructure\Persistence\Doctrine\Repository\DoctrineUserRepository
+
     App\Domain\Tenant\Repository\TenantRepositoryInterface: '@App\Infrastructure\Persistence\Redis\Repository\CachedTenantRepository'
+
     App\Infrastructure\Persistence\Redis\Repository\CachedTenantRepository:
         arguments:
             $tenantRepository: '@App\Infrastructure\Persistence\Doctrine\Repository\DoctrineTenantRepository'
+
     App\Infrastructure\Security\InternalApiKeyAuthenticator:
         arguments:
             $internalSecret: '%env(INTERNAL_SECRET)%'
+
+    App\Domain\Product\Repository\ProductRepositoryInterface:
+        class: App\Infrastructure\Persistence\Doctrine\Repository\DoctrineProductRepository
+
+    App\Infrastructure\Service\FileUploader:
+        arguments:
+            $uploadDir: '%kernel.project_dir%/public/uploads/products'
+
+    App\Application\Shared\Port\FileUploaderInterface:
+        alias: App\Infrastructure\Service\FileUploader
+
+    App\Application\User\Service\PasswordResetMailerService:
+        arguments:
+            $fromEmail: '%env(MAILER_FROM)%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

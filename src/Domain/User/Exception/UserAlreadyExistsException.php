@@ -2,10 +2,10 @@
 
 namespace App\Domain\User\Exception;
 
-class UserAlreadyExistsException extends \DomainException
+final class UserAlreadyExistsException extends \DomainException
 {
-    public function __construct()
+    public static function withEmail(string $email): self
     {
-        parent::__construct('A user with this email already exists.');
+        return new self(sprintf('Un compte existe déjà avec l\'adresse "%s".', $email));
     }
 }

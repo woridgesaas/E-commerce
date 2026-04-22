@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+    <div class="form-card mx-auto">
+        <h2 class="form-title">Modifier le produit</h2>
+
+        <form method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label">Nom</label>
+                <input type="text" name="name" value="{{ product.name }}"
+                       class="form-control custom-input" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control custom-input"
+                          rows="3">{{ product.description }}</textarea>
+            </div>
+
+            {# TYPE — sélectionne la valeur courante #}
+            <div class="mb-3">
+                <label class="form-label">Type</label>
+                <select name="type" class="form-control custom-input" required>
+    {% for case in types %}
+        <option value="{{ case.value }}"
+            {{ product.type.value == case.value ? 'selected' : '' }}>
+            {{ case.label() }}
+        </option>
+    {% endfor %}
+</select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Prix (MAD)</label>
+                <input type="number" step="0.01" name="price"
+                       value="{{ product.price }}" class="form-control custom-input" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Image</label>
+                <input type="file" name="image" class="form-control custom-input-file"
+                       accept="image/jpeg,image/png,image/webp">
+                {% if product.image %}
+                    <img src="{{ asset('uploads/products/' ~ product.image) }}"
+                         width="80" class="mt-2 d-block rounded">
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-warning w-100 fw-semibold">
+                <i class="bi bi-save me-2"></i> Mettre à jour
+            </button>
+
+            <a href="{{ path('admin_products') }}" class="btn btn-secondary w-100 mt-2">
+                Annuler
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}
