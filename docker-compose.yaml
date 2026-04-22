@@ -34,7 +34,10 @@ services:
     depends_on:
       - woridge.php
     networks:
-      - woridge-ecomm-network
+        woridge-ecomm-network:
+        admin-service-network:
+            aliases:
+                - admin-service
 
   woridge.database:
     container_name: administrative_database
@@ -72,6 +75,15 @@ services:
     networks:
       - woridge-ecomm-network
 
+  redis:
+      image: redis:7.2
+      container_name: woridge_redis
+      networks:
+          - woridge-ecomm-network
+      ports:
+          - "6379:6379"
+
+
 volumes:
   mysql_data:
 
@@ -80,3 +92,6 @@ networks:
     external: true
   woridge-ecomm-network:
     external: true
+  admin-service-network:
+    external: true
+

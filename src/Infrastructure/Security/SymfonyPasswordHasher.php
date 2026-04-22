@@ -13,7 +13,7 @@ class SymfonyPasswordHasher implements PasswordHasherInterface
 
     public function hash(string $plainPassword): string
     {
-        // On crée un SecurityUser temporaire pour satisfaire l'interface
+
         $user = new SecurityUser('', '', []);
         return $this->hasher->hashPassword($user, $plainPassword);
     }

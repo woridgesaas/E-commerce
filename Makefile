@@ -39,3 +39,6 @@ create-database:
 
 drop-database:
 	docker  exec $(CONTAINER_PHP) bin/console doctrine:database:drop --force
+
+custom-start:
+	docker compose --env-file .env.local up -d
