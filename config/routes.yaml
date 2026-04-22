@@ -3,3 +3,9 @@ controllers:
         path: ../src/UI/Web/Controller/
         namespace: App\UI\Web\Controller
     type: attribute
+
+controllers_api:
+    resource:
+        path: ../src/UI/Api/Internal/Tenant/Controller/
+        namespace: App\UI\Api\Internal\Tenant\Controller
+    type: attribute
