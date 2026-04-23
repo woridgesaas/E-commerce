@@ -4,9 +4,6 @@ WORKDIR /var/www/html
 
 RUN apt-get update && apt-get install -y \
     curl \
-    git \
-    wget \
-    bash \
     && rm -rf /var/lib/apt/lists/*
 
 #ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
@@ -14,8 +11,8 @@ RUN apt-get update && apt-get install -y \
 
 #RUN install-php-extensions opcache iconv soap zip intl fileinfo pdo redis mysqli pdo_mysql gd
 
-COPY composer.json composer.lock ./
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY . .
