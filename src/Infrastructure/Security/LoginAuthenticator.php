@@ -56,4 +56,5 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         return $this->router->generate('app_login');
     }
 
+
 }
