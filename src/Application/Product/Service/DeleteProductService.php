@@ -1,7 +1,9 @@
 <?php
-namespace App\Application\Product\Service;
-use App\Domain\Product\Repository\ProductRepositoryInterface;
 
+namespace App\Application\Product\Service;
+
+use App\Domain\Product\Exception\ProductNotFoundException;
+use App\Domain\Product\Repository\ProductRepositoryInterface;
 
 final class DeleteProductService
 {
@@ -14,7 +16,7 @@ final class DeleteProductService
         $product = $this->repo->findById($id);
 
         if ($product === null) {
-            return; // idempotent
+            throw ProductNotFoundException::withId($id);
         }
 
         $this->repo->delete($product);

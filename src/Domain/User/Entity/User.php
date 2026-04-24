@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Domain\User\Entity;
-
+use App\Domain\User\ValueObject\UserRole;
 use App\Domain\User\ValueObject\Email;
 use App\Domain\User\ValueObject\UserName;
 
@@ -18,7 +18,7 @@ final class User
         private UserName $lastName,
         private Email    $email,
         private string   $password,
-        private string   $role = 'ROLE_USER'
+        private string   $role = UserRole::USER->value 
     ) {}
 
     public static function reconstitute(

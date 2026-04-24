@@ -21,6 +21,7 @@ services:
       retries: 3
     networks:
       - mailer-network
+      - woridge-global-network
       - woridge-ecomm-network
 
   woridge.nginx:
@@ -79,4 +80,6 @@ networks:
   mailer-network:
     external: true
   woridge-ecomm-network:
+    external: true
+  woridge-global-network:
     external: true
