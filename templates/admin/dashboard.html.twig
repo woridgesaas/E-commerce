@@ -12,7 +12,11 @@
             <p class="section-text mb-0">Bienvenue, {{ app.user.getUserIdentifier() }}</p>
         </div>
         <span class="badge bg-purple px-3 py-2" style="background:#7c3aed; border-radius:8px; font-size:13px;">
-            ROLE_ADMIN
+          {% if is_granted('ROLE_ADMIN') %}
+    ROLE_ADMIN
+{% else %}
+    ROLE_USER
+{% endif %}
         </span>
     </div>
 

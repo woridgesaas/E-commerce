@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <!-- TITRE + IMAGE côte à côte -->
+    <div class="row align-items-center mb-5">
+        
+        <!-- GAUCHE : texte -->
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-2">{{ doc.title }}</h2>
+            <p class="text-light opacity-75 mb-4">{{ doc.summary }}</p>
+
+            <hr>
+
+            <h4 class="text-primary mt-4">Contenu</h4>
+            <div>
+                {% for block in doc.content %}
+                    {% for child in block.children %}
+                        <p>{{ child.text }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+            <h4 class="text-primary mt-4">Spécifications techniques</h4>
+            <ul>
+                {% for block in doc.technicalSpecs %}
+                    {% for child in block.children %}
+                        <li>{{ child.text }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+
+            <h4 class="text-primary mt-4">Recommandations</h4>
+            <ul>
+                {% for block in doc.usageRecommendations %}
+                    {% for child in block.children %}
+                        <li>{{ child.text }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+
+            <h4 class="text-primary mt-4">Garantie</h4>
+            <p>{{ doc.warrantyInfo }}</p>
+        </div>
+
+        <!-- DROITE : image -->
+        <div class="col-lg-6 text-center">
+            {% if doc.coverImage %}
+                <img src="{{ strapi_url ~ doc.coverImage.url }}" 
+                     class="img-fluid rounded shadow"
+                     style="max-height: 500px; width: 100%; object-fit: cover;">
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

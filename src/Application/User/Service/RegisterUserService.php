@@ -22,7 +22,7 @@ final class RegisterUserService
         $email = new Email($input->email);
 
         if ($this->repo->findByEmail($email) !== null) {
-            throw new UserAlreadyExistsException();
+            throw UserAlreadyExistsException::withEmail($input->email);
         }
 
         $user = new User(

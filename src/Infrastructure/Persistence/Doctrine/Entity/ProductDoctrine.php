@@ -31,18 +31,18 @@ class ProductDoctrine
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $image = null;
 
-    public function getId(): ?int            { return $this->id; }
-    public function getName(): string        { return $this->name; }
+    public function getId(): ?int { return $this->id; }
+    public function getName(): string { return $this->name; }
     public function getDescription(): string { return $this->description; }
-    public function getStatus(): string      { return $this->status; }
-    public function getType(): string        { return $this->type; }
-    public function getPrice(): float        { return $this->price; }
-    public function getImage(): ?string      { return $this->image; }
+    public function getStatus(): string { return $this->status; }
+    public function getType(): string { return $this->type; }
+    public function getPrice(): float { return $this->price; }
+    public function getImage(): ?string { return $this->image; }
 
-    public function setName(string $v): void        { $this->name = $v; }
+    public function setName(string $v): void { $this->name = $v; }
     public function setDescription(string $v): void { $this->description = $v; }
-    public function setStatus(string $v): void      { $this->status = $v; }
-    public function setType(string $v): void        { $this->type = $v; }
-    public function setPrice(float $v): void        { $this->price = $v; }
-    public function setImage(?string $v): void      { $this->image = $v; }
+    public function setStatus(string $v): void { $this->status = $v; }
+    public function setType(string $v): void { $this->type = $v; }
+    public function setPrice(float $v): void { $this->price = $v; }
+    public function setImage(?string $v): void { $this->image = $v; }
 }

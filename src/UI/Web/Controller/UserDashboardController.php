@@ -7,16 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route('/dashboard')]
 #[IsGranted('ROLE_USER')]
-final class DashboardController extends AbstractController
+final class UserDashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
+    #[Route('', name: 'app_user_dashboard', methods: ['GET'])]
     public function index(): Response
     {
-        $user = $this->getUser();
-
-        return $this->render('admin/dashboard.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->render('user/dashboard.html.twig');
     }
 }

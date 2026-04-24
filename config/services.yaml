@@ -4,13 +4,15 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    mailer_from: '%env(MAILER_FROM)%'
+    strapi_public_url: '%env(STRAPI_PUBLIC_URL)%'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+    
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -54,10 +56,13 @@ services:
 
     App\Application\Shared\Port\FileUploaderInterface:
         alias: App\Infrastructure\Service\FileUploader
-
-    App\Application\User\Service\PasswordResetMailerService:
+   
+    App\Application\User\Port\MailerPort:
+        class: App\Infrastructure\Service\SymfonyMailerAdapter
         arguments:
-            $fromEmail: '%env(MAILER_FROM)%'
+           $fromEmail: '%mailer_from%'
+
+    
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -28,6 +28,8 @@ security:
             custom_authenticator: App\Infrastructure\Security\LoginAuthenticator
 
             entry_point: App\Infrastructure\Security\LoginAuthenticator
+            form_login:
+                 use_referer: true
 
             logout:
                 path: app_logout
@@ -36,14 +38,19 @@ security:
     access_control:
         - { path: ^/api/internal, roles: ROLE_INTERNAL_MACHINE }
         - { path: ^/$, roles: PUBLIC_ACCESS }
-        - { path: ^/register,        roles: PUBLIC_ACCESS }
-        - { path: ^/login,           roles: PUBLIC_ACCESS }
+        - { path: ^/product, roles: PUBLIC_ACCESS }  
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password,  roles: PUBLIC_ACCESS }
         - { path: ^/test-email, roles: PUBLIC_ACCESS }
-       # - { path: ^/api,             roles: ROLE_USER }
-        - { path: ^/admin,           roles: ROLE_ADMIN }
-        - { path: ^/,                roles: ROLE_USER }
+
+        - { path: ^/cart, roles: ROLE_USER }          
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        
+        
+       
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
