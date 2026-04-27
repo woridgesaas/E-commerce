@@ -192,7 +192,7 @@
 </section>
 
 <!-- ================= DOCUMENTATION ================= -->
-<section class="section documentation-section-bg "
+<section id="Documentation" class="section documentation-section-bg "
     style="background-image: url('{{ asset('uploads/doc1.jpg') }}');">        <div class="container">
         <div class="row align-items-center">
 
@@ -294,8 +294,10 @@
     avec simplicité, efficacité et sécurité.
 </p>
                         <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
-                    <a href="#" class="btn btn-outline w-100 mb-2">Choisir</a>
-                    <a href="#" class="btn btn-link doc-btn">Voir documentation</a>
+                    <a href="{{ path('subscription_show', {type: 'BASIC'}) }}" 
+   class="btn btn-outline w-100 mb-2">
+   Choisir
+</a>
                 </div>
             </div>
 
@@ -319,8 +321,10 @@
 </p>
                         <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
 
-                    <a href="#" class="btn btn-primary w-100 mb-2">Choisir</a>
-                    <a href="#" class="btn btn-link doc-btn">Voir documentation</a>
+                    <a href="{{ path('subscription_show', {type: 'PRO'}) }}" 
+   class="btn btn-primary w-100 mb-2">
+   Choisir
+</a>
                 </div>
             </div>
 
@@ -342,8 +346,10 @@
 </p>
                         <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
 
-                    <a href="#" class="btn btn-dark w-100 mb-2">Choisir</a>
-                    <a href="#" class="btn btn-link doc-btn">Voir documentation</a>
+                    <a href="{{ path('subscription_show', {type: 'PREMIUM'}) }}" 
+   class="btn btn-dark w-100 mb-2">
+   Choisir
+</a>
                 </div>
             </div>
 

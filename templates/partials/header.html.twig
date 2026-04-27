@@ -1,102 +1,105 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark">
-    <div class="container">
+	<div
+		class="container">
 
-        <!-- LOGO -->
-        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ path('app_home') }}">
-            <img src="{{ asset('uploads/big-logo-nobg.png') }}" alt="logo" class="navbar-logo">
-        </a>
+		<!-- LOGO -->
+		<a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ path('app_home') }}">
+			<img src="{{ asset('uploads/big-logo-nobg.png') }}" alt="logo" class="navbar-logo">
+		</a>
 
-        <!-- TOGGLER MOBILE -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+		<!-- TOGGLER MOBILE -->
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-        <!-- NAVBAR -->
-        <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
-            <ul class="navbar-nav align-items-lg-center gap-lg-3">
+		<!-- NAVBAR -->
+		<div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+			<ul
+				class="navbar-nav align-items-lg-center gap-lg-3">
 
-                <!-- MENU PUBLIC -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}#about">À propos de nous</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}#product">Notre produit</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}#services">Nos services</a>
-                </li>
-                <li class="nav-item">
-    <a class="nav-link" href="{{ path('documentation_list') }}">
-        Documentation
-    </a>
-</li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_home') }}#plans">Abonnements</a>
-                </li>
-{% if app.user %}
+				<!-- MENU PUBLIC -->
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home') }}#about">À propos de nous</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home') }}#product">Notre produit</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home') }}#services">Nos services</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home') }}#Documentation">
+						Documentation
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_home') }}#plans">Abonnements</a>
+				</li>
+				{% if app.user %}
 
-    <!-- ===== ADMIN ===== -->
-    {% if is_granted('ROLE_ADMIN') %}
+					<!-- ===== ADMIN ===== -->
+					{% if is_granted('ROLE_ADMIN') %}
 
-        <li class="nav-item">
-            <a class="btn btn-outline-primary px-3" href="{{ path('app_admin_dashboard') }}">
-                <i class="bi bi-speedometer2"></i> Dashboard
-            </a>
-        </li>
+						<li class="nav-item">
+							<a class="btn btn-outline-primary px-3" href="{{ path('app_admin_dashboard') }}">
+								<i class="bi bi-speedometer2"></i>
+								Dashboard
+							</a>
+						</li>
 
-    <!-- ===== USER ===== -->
-    {% else %}
+						<!-- ===== USER ===== -->
+					{% else %}
 
-        <!-- PANIER -->
-        <li class="nav-item position-relative">
-            <a href="{{ path('app_cart') }}" class="nav-link cart-icon" title="Mon panier">
-                <i class="bi bi-cart3 fs-4"></i>
+						<!-- PANIER -->
+						<li class="nav-item position-relative">
+							<a href="{{ path('app_cart') }}" class="nav-link cart-icon" title="Mon panier">
+								<i class="bi bi-cart3 fs-4"></i>
 
-                <!-- badge dynamique -->
-                {% set cart = app.session.get('cart', {}) %}
-                {% set count = 0 %}
-                {% for q in cart %}
-                    {% set count = count + q %}
-                {% endfor %}
+								<!-- badge dynamique -->
+								{% set cart = app.session.get('cart', {}) %}
+								{% set count = 0 %}
+								{% for q in cart %}
+									{% set count = cart|length %}
+								{% endfor %}
 
-                <span class="cart-count">{{ count }}</span>
-            </a>
-        </li>
+								<span class="cart-count">{{ count }}</span>
+							</a>
+						</li>
 
-        <!-- DASHBOARD USER -->
-        <li class="nav-item">
-            <a href="{{ path('app_user_dashboard') }}" class="btn btn-primary">
-                Mon espace
-            </a>
-        </li>
+						<!-- DASHBOARD USER -->
+						<li class="nav-item">
+							<a href="{{ path('app_user_dashboard') }}" class="btn btn-primary">
+								Mon espace
+							</a>
+						</li>
 
-    {% endif %}
+					{% endif %}
 
-    <!-- LOGOUT -->
-    <li class="nav-item">
-        <a class="btn btn-danger px-3" href="{{ path('app_logout') }}">
-            Se déconnecter
-        </a>
-    </li>
+					<!-- LOGOUT -->
+					<li class="nav-item">
+						<a class="btn btn-danger px-3" href="{{ path('app_logout') }}">
+							Se déconnecter
+						</a>
+					</li>
 
-{% else %}
+				{% else %}
 
-    <!-- ===== GUEST ===== -->
-    <li class="nav-item">
-        <a class="btn btn-outline-light btn-modern-login" href="{{ path('app_login') }}">
-            Se connecter
-        </a>
-    </li>
+					<!-- ===== GUEST ===== -->
+					<li class="nav-item">
+						<a class="btn btn-outline-light btn-modern-login" href="{{ path('app_login') }}">
+							Se connecter
+						</a>
+					</li>
 
-    <li class="nav-item">
-        <a class="btn btn-modern-register" href="{{ path('app_register') }}">
-            S’inscrire
-        </a>
-    </li>
+					<li class="nav-item">
+						<a class="btn btn-modern-register" href="{{ path('app_register') }}">
+							S’inscrire
+						</a>
+					</li>
 
-{% endif %}
+				{% endif %}
 
-            </ul>
-        </div>
-    </div>
+			</ul>
+		</div>
+	</div>
 </nav>

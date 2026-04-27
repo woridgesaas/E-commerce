@@ -9,18 +9,38 @@ class StrapiService
     private HttpClientInterface $client;
     private string $baseUrl;
 
-    public function __construct(HttpClientInterface $client)
+    public function __construct(HttpClientInterface $client, string $baseUrl)
     {
         $this->client = $client;
-        $this->baseUrl = $_ENV['STRAPI_BASE_URL'];
+        $this->baseUrl = $baseUrl;
     }
 
+    
+   private function request(string $endpoint, array $query = []): array
+{
+    $url = $this->baseUrl . $endpoint;
+
+    try {
+        $response = $this->client->request('GET', $url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $_ENV['STRAPI_API_TOKEN']
+            ],
+            'query' => $query,
+        ]);
+
+        return $response->toArray()['data'] ?? [];
+    } catch (\Exception $e) {
+        dump($e->getMessage());
+        return [];
+    }
+}
+
     /**
-     * 🔹 Récupérer toutes les documentations publiées
+     * 🔹 Toutes les documentations
      */
     public function getAllDocumentations(): array
     {
-        $query = http_build_query([
+        return $this->request('/api/product-documentations', [
             'filters' => [
                 'isPublishedToPublic' => [
                     '$eq' => true
@@ -28,65 +48,58 @@ class StrapiService
             ],
             'populate' => '*'
         ]);
-
-        $url = $this->baseUrl . "/api/product-documentations?" . $query;
-
-        try {
-            $response = $this->client->request('GET', $url);
-            $data = $response->toArray();
-
-            return $data['data'] ?? [];
-        } catch (\Exception $e) {
-            dump($e->getMessage());
-            return [];
-        }
     }
 
     /**
-     * 🔹 Récupérer documentation par ID
+     * 🔹 Par ID
      */
     public function getDocumentationById(int $id): ?array
     {
-        $url = $this->baseUrl . "/api/product-documentations/" . $id . "?populate=*";
-
-        try {
-            $response = $this->client->request('GET', $url);
-            $data = $response->toArray();
-
-            return $data['data'] ?? null;
-        } catch (\Exception $e) {
-            dump($e->getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * 🔥 🔹 Récupérer documentation par productId (TA FONCTION PRINCIPALE)
-     */
-    public function getDocumentationByProductId(int $productId): array
-    {
-        $query = http_build_query([
-            'filters' => [
-                'productId' => [
-                    '$eq' => (string) $productId 
-                ],
-                'isPublishedToPublic' => [
-                    '$eq' => true
-                ]
-            ],
+        $data = $this->request("/api/product-documentations/$id", [
             'populate' => '*'
         ]);
 
-        $url = $this->baseUrl . "/api/product-documentations?" . $query;
-
-        try {
-            $response = $this->client->request('GET', $url);
-            $data = $response->toArray();
-
-            return $data['data'] ?? [];
-        } catch (\Exception $e) {
-            dump($e->getMessage());
-            return [];
-        }
+        return $data ?: null;
     }
+
+    public function getDocumentationByProductId(int $productId): array
+{
+    return $this->request('/api/product-documentations', [
+        'filters' => [
+            'productId' => [   
+                '$eq' => $productId
+            ],
+            'isPublishedToPublic' => [
+                '$eq' => true
+            ]
+        ],
+        'populate' => '*'
+    ]);
+}
+public function getAllSubscriptions(): array
+{
+    return $this->request('/api/subscription-documentations', [
+        'filters' => [
+            'isPublishedToPublic' => [
+                '$eq' => true
+            ]
+        ],
+        'populate' => '*'
+    ]);
+}
+
+public function getSubscriptionByType(string $type): array
+{
+    return $this->request('/api/subscription-documentations', [
+        'filters' => [
+            'subscriptionType' => [
+                '$eq' => $type
+            ],
+            'isPublishedToPublic' => [
+                '$eq' => true
+            ]
+        ],
+        'populate' => '*'
+    ]);
+}
 }

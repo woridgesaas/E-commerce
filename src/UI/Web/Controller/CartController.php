@@ -56,4 +56,18 @@ public function add(int $id, int $qty, SessionInterface $session): Response
 
     return $this->redirectToRoute('app_cart');
 }
+#[Route('/cart/add-subscription/{id}', name: 'cart_add_subscription')]
+public function addSubscription(int $id, SessionInterface $session)
+{
+    $cart = $session->get('cart', []);
+
+    $cart[] = [
+        'type' => 'subscription',
+        'id' => $id
+    ];
+
+    $session->set('cart', $cart);
+
+    return $this->redirectToRoute('cart_index');
+}
 }

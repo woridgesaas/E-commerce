@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <h2 class="fw-bold">
+        Offre {{ sub.subscriptionType }}
+    </h2>
+
+    <p class="text-summary">{{ sub.summary }}</p>
+
+    <hr>
+
+    <h4>Présentation</h4>
+    {% for block in sub.content %}
+        {% for child in block.children %}
+            <p>{{ child.text }}</p>
+        {% endfor %}
+    {% endfor %}
+
+    <h4>Fonctionnalités</h4>
+    <ul>
+        {% for block in sub.features %}
+            {% for child in block.children %}
+                <li>{{ child.text }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+
+    <h4>Avantages</h4>
+    <ul>
+        {% for block in sub.advantages %}
+            {% for child in block.children %}
+                <li>{{ child.text }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+
+    <h4>Durées disponibles</h4>
+    <p>{{ sub.durationOptions }}</p>
+
+</div>
+{% endblock %}
