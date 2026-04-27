@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="section show section-padding">
+    <div class="container text-center">
+
+        <h2 class="section-title mb-2">
+            Abonnement {{ type }}
+        </h2>
+
+        <p class="section-text mb-5">
+            Choisissez la durée qui vous convient et profitez de notre solution SaaS.
+        </p>
+
+        <div class="row justify-content-center g-4">
+
+{% for sub in subscriptions %}
+    <div class="col-lg-3 col-md-6">
+
+        <div class="subscription-card">
+
+            {% if sub.getDurationInMonths() == 12 %}
+                <span class="badge-save"> Meilleur choix</span>
+            {% endif %}
+
+            <h5 class="duration">
+                {{ sub.getDurationInMonths() }} mois
+            </h5>
+
+            <h2 class="price">
+                {{ sub.getPrice() }} DH
+            </h2>
+
+
+            <hr>
+
+      <ul class="features">
+
+{% if sub.getDurationInMonths() == 1 %}
+    <li><i class="bi bi-person-check text-purple"></i> 1 administrateur</li>
+    <li><i class="bi bi-bar-chart text-purple"></i> Statistiques de base</li>
+    <li><i class="bi bi-shield-lock text-purple"></i> Accès sécurisé</li>
+    <li><i class="bi bi-envelope text-purple"></i> Support email</li>
+
+{% elseif sub.getDurationInMonths() == 3 %}
+    <li><i class="bi bi-people text-purple"></i> 5 utilisateurs</li>
+    <li><i class="bi bi-graph-up-arrow text-purple"></i> Rapports détaillés</li>
+    <li><i class="bi bi-cloud-upload text-purple"></i> Stockage cloud 5 Go</li>
+    <li><i class="bi bi-headset text-purple"></i> Support prioritaire</li>
+    <li><i class="bi bi-arrow-repeat text-purple"></i> Sauvegardes auto</li>
+
+{% elseif sub.getDurationInMonths() == 6 %}
+    <li><i class="bi bi-people-fill text-purple"></i> 20 utilisateurs</li>
+    <li><i class="bi bi-robot text-purple"></i> Automatisation RH</li>
+    <li><i class="bi bi-cloud-upload text-purple"></i> Stockage cloud 20 Go</li>
+    <li><i class="bi bi-file-earmark-excel text-purple"></i> Export Excel / PDF</li>
+    <li><i class="bi bi-telephone text-purple"></i> Support téléphonique</li>
+    <li><i class="bi bi-patch-check text-purple"></i> Onboarding inclus</li>
+
+{% elseif sub.getDurationInMonths() == 12 %}
+    <li><i class="bi bi-infinity text-purple"></i> Utilisateurs illimités</li>
+    <li><i class="bi bi-stars text-purple"></i> Accès fonctionnalités bêta</li>
+    <li><i class="bi bi-cloud-upload text-purple"></i> Stockage cloud illimité</li>
+    <li><i class="bi bi-cpu text-purple"></i> IA & automatisation avancée</li>
+    <li><i class="bi bi-gift text-purple"></i> 2 mois offerts</li>
+    <li><i class="bi bi-person-badge text-purple"></i> Account manager dédié</li>
+
+{% endif %}
+
+</ul>
+
+            <a href="{{ path('cart_add_subscription', {id: sub.getId()}) }}"
+               class="btn btn-buy-modern">
+                Acheter maintenant
+            </a>
+
+        </div>
+
+    </div>
+{% endfor %}
+
+</div>
+    </div>
+</section>
+{% endblock %}

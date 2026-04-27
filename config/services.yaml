@@ -5,7 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     mailer_from: '%env(MAILER_FROM)%'
-    strapi_public_url: '%env(STRAPI_PUBLIC_URL)%'
+    strapi.base_url: '%env(STRAPI_BASE_URL)%'
+
 
 services:
     # default configuration for services in *this* file
@@ -61,6 +62,13 @@ services:
         class: App\Infrastructure\Service\SymfonyMailerAdapter
         arguments:
            $fromEmail: '%mailer_from%'
+    
+    App\Infrastructure\Service\StrapiService:
+        arguments:
+            $baseUrl: '%strapi.base_url%'
+
+    App\Domain\Subscription\Repository\SubscriptionRepositoryInterface:
+       class: App\Infrastructure\Persistence\Doctrine\Repository\DoctrineSubscriptionRepository
 
     
 
