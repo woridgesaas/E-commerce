@@ -1,85 +1,344 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Abonnements - Woridge{% endblock %}
+
+{% block stylesheets %}
+<style>
+.sub-wrap { padding: 3rem 0; }
+
+.sub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .sub-grid { grid-template-columns: 1fr; }
+}
+
+.sub-card {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.sub-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(168,85,247,0.3);
+}
+
+.sub-card.featured {
+    border: 2px solid #a855f7;
+    box-shadow: 0 0 30px rgba(168,85,247,0.25);
+}
+
+.badge-popular {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #a855f7;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.plan-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+}
+
+.price-currency { font-size: 16px; font-weight: 600; color: #94a3b8; }
+.price-amount   { font-size: 36px; font-weight: 800; color: #fff; }
+.price-period   { font-size: 13px; color: #64748b; }
+
+.price-note {
+    font-size: 12px;
+    color: #c084fc;
+    margin-top: 2px;
+    min-height: 18px;
+}
+
+.sub-select {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 10px;
+    color: #fff;
+    padding: 9px 12px;
+    font-size: 13px;
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sub-select:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px rgba(168,85,247,0.2);
+}
+
+.sub-select option { background: #1e293b; color: #fff; }
+
+.sub-divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin: 0;
+}
+
+.sub-features {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.sub-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.4;
+}
+
+.feat-check {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.feat-check svg { width: 9px; height: 9px; }
+
+.btn-sub {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    margin-top: auto;
+}
+
+.btn-sub:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(168,85,247,0.5);
+}
+
+.btn-sub:active { transform: scale(0.98); }
+
+#sub-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(168,85,247,0.5);
+}
+
+#sub-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+{% endblock %}
+
 {% block body %}
-<section class="section show section-padding">
-    <div class="container text-center">
+<section class="section show sub-wrap">
+    <div class="container">
 
-        <h2 class="section-title mb-2">
-            Abonnement {{ type }}
-        </h2>
-
-        <p class="section-text mb-5">
-            Choisissez la durée qui vous convient et profitez de notre solution SaaS.
-        </p>
-
-        <div class="row justify-content-center g-4">
-
-{% for sub in subscriptions %}
-    <div class="col-lg-3 col-md-6">
-
-        <div class="subscription-card">
-
-            {% if sub.getDurationInMonths() == 12 %}
-                <span class="badge-save"> Meilleur choix</span>
-            {% endif %}
-
-            <h5 class="duration">
-                {{ sub.getDurationInMonths() }} mois
-            </h5>
-
-            <h2 class="price">
-                {{ sub.getPrice() }} DH
-            </h2>
-
-
-            <hr>
-
-      <ul class="features">
-
-{% if sub.getDurationInMonths() == 1 %}
-    <li><i class="bi bi-person-check text-purple"></i> 1 administrateur</li>
-    <li><i class="bi bi-bar-chart text-purple"></i> Statistiques de base</li>
-    <li><i class="bi bi-shield-lock text-purple"></i> Accès sécurisé</li>
-    <li><i class="bi bi-envelope text-purple"></i> Support email</li>
-
-{% elseif sub.getDurationInMonths() == 3 %}
-    <li><i class="bi bi-people text-purple"></i> 5 utilisateurs</li>
-    <li><i class="bi bi-graph-up-arrow text-purple"></i> Rapports détaillés</li>
-    <li><i class="bi bi-cloud-upload text-purple"></i> Stockage cloud 5 Go</li>
-    <li><i class="bi bi-headset text-purple"></i> Support prioritaire</li>
-    <li><i class="bi bi-arrow-repeat text-purple"></i> Sauvegardes auto</li>
-
-{% elseif sub.getDurationInMonths() == 6 %}
-    <li><i class="bi bi-people-fill text-purple"></i> 20 utilisateurs</li>
-    <li><i class="bi bi-robot text-purple"></i> Automatisation RH</li>
-    <li><i class="bi bi-cloud-upload text-purple"></i> Stockage cloud 20 Go</li>
-    <li><i class="bi bi-file-earmark-excel text-purple"></i> Export Excel / PDF</li>
-    <li><i class="bi bi-telephone text-purple"></i> Support téléphonique</li>
-    <li><i class="bi bi-patch-check text-purple"></i> Onboarding inclus</li>
-
-{% elseif sub.getDurationInMonths() == 12 %}
-    <li><i class="bi bi-infinity text-purple"></i> Utilisateurs illimités</li>
-    <li><i class="bi bi-stars text-purple"></i> Accès fonctionnalités bêta</li>
-    <li><i class="bi bi-cloud-upload text-purple"></i> Stockage cloud illimité</li>
-    <li><i class="bi bi-cpu text-purple"></i> IA & automatisation avancée</li>
-    <li><i class="bi bi-gift text-purple"></i> 2 mois offerts</li>
-    <li><i class="bi bi-person-badge text-purple"></i> Account manager dédié</li>
-
-{% endif %}
-
-</ul>
-
-            <a href="{{ path('cart_add_subscription', {id: sub.getId()}) }}"
-               class="btn btn-buy-modern">
-                Acheter maintenant
-            </a>
-
+        <div class="text-center mb-4">
+            <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#a855f7;font-weight:600;">
+                Abonnements Woridge
+            </p>
+            <h2 class="section-title mt-1">Choisissez votre plan</h2>
+            <p class="section-text mt-2">
+                Sélectionnez la durée qui vous convient et profitez de notre solution SaaS.
+            </p>
         </div>
 
-    </div>
-{% endfor %}
+        {# ── Grouper les subscriptions par type ── #}
+        {% set grouped = {} %}
+        {% for sub in subscriptions %}
+    {% set type = sub.type.value %}
+            {% if grouped[type] is not defined %}
+                {% set grouped = grouped|merge({(type): []}) %}
+            {% endif %}
+            {% set grouped = grouped|merge({(type): grouped[type]|merge([sub])}) %}
+        {% endfor %}
 
-</div>
+        {# ── Ordre d'affichage fixe ── #}
+        {% set planOrder = ['BASIC', 'PRO', 'PREMIUM'] %}
+
+        <div class="sub-grid">
+
+        {% for planType in planOrder %}
+            {% if grouped[planType] is defined %}
+
+            {% set planSubs = grouped[planType] %}
+
+            <div class="sub-card {% if planType == 'PRO' %}featured{% endif %}">
+
+                {% if planType == 'PRO' %}
+                    <span class="badge-popular"> Populaire</span>
+                {% elseif planType == 'PREMIUM' %}
+                    <span class="badge-popular" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">
+                        Meilleur choix
+                    </span>
+                {% endif %}
+
+                <p class="plan-label">{{ planType }}</p>
+
+                <div>
+                    <div class="price-display">
+                        <span class="price-currency">MAD</span>
+                        <span class="price-amount" id="price-{{ planType }}">—</span>
+                        <span class="price-period">/mois</span>
+                    </div>
+                    <p class="price-note" id="note-{{ planType }}">Choisissez une durée</p>
+                </div>
+
+                {# ── Select : une option par durée depuis la BDD ── #}
+                <select class="sub-select"
+                        id="dur-{{ planType }}"
+                        onchange="updatePrice('{{ planType }}', this)">
+                    <option value="">Choisir la durée</option>
+                    {% for sub in planSubs|sort((a, b) => a.durationInMonths <=> b.durationInMonths) %}
+                        <option value="{{ sub.durationInMonths }}"
+                                data-sub-id="{{ sub.id }}"
+                                data-pm="{{ (sub.price / sub.durationInMonths)|round }}"
+                                data-total="{{ sub.price }}">
+                            {% if sub.durationInMonths == 1 %}1 mois
+                            {% elseif sub.durationInMonths == 3 %}3 mois
+                            {% elseif sub.durationInMonths == 6 %}6 mois
+                            {% elseif sub.durationInMonths == 12 %}1 an
+                            {% else %}{{ sub.durationInMonths }} mois
+                            {% endif %}
+                            — {{ sub.price }} MAD
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <hr class="sub-divider">
+
+                <ul class="sub-features">
+                    {% if planType == 'BASIC' %}
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>1 administrateur</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Statistiques de base</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Accès sécurisé</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Support email</li>
+                    {% elseif planType == 'PRO' %}
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 utilisateurs</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Rapports détaillés</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Stockage cloud 5 Go</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Support prioritaire</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Sauvegardes automatiques</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Assistant virtuel IA</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Site vitrine standard</li>
+                    {% elseif planType == 'PREMIUM' %}
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Utilisateurs illimités</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Accès fonctionnalités bêta</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Stockage cloud illimité</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>IA & automatisation avancée</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>2 mois offerts (annuel)</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Account manager dédié</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Site vitrine personnalisé</li>
+                        <li><span class="feat-check"><svg viewBox="0 0 9 9"><polyline points="1,4.5 3.5,7 8,2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Communication interne</li>
+                    {% endif %}
+                </ul>
+
+                <button class="btn-sub" onclick="addToCart('{{ planType }}')">
+                    Ajouter au panier
+                </button>
+
+            </div>
+
+            {% endif %}
+        {% endfor %}
+
+        </div>
     </div>
 </section>
+
+<div id="sub-toast"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updatePrice(planType, selectEl) {
+    const opt = selectEl.options[selectEl.selectedIndex];
+    if (!opt.value) return;
+
+    document.getElementById('price-' + planType).textContent = opt.dataset.pm;
+
+    const notes = {
+        '1':  'Facturation mensuelle',
+        '3':  'Total : ' + opt.dataset.total + ' MAD',
+        '6':  'Total : ' + opt.dataset.total + ' MAD',
+        '12': 'Total : ' + opt.dataset.total + ' MAD — meilleure offre '
+    };
+    document.getElementById('note-' + planType).textContent = notes[opt.value] || '';
+}
+
+function addToCart(planType) {
+    const sel = document.getElementById('dur-' + planType);
+    const opt = sel.options[sel.selectedIndex];
+
+    if (!opt.value) {
+        showToast('⚠️ Veuillez choisir une durée d\'abord.');
+        return;
+    }
+
+    const subId = opt.dataset.subId;
+    window.location.href = `/cart/add-subscription/${subId}?duration=${encodeURIComponent(opt.value)}`;
+}
+
+function showToast(msg) {
+    const t = document.getElementById('sub-toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
 {% endblock %}

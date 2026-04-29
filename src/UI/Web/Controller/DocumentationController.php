@@ -38,21 +38,22 @@ public function showByProduct(
         'doc' => $doc
     ]);
 }
-
-#[Route('/subscriptions/{type}', name: 'subscription_show')]
-public function showSubscription(
+#[Route('/documentations/subscription/{type}', name: 'documentation_by_subscription')]
+public function showBySubscription(
     string $type,
     StrapiService $strapiService
 ): Response {
 
-    $subs = $strapiService->getSubscriptionByType($type);
+    $docs = $strapiService->getSubscriptionByType($type);
 
-    if (empty($subs)) {
-        throw $this->createNotFoundException('Abonnement non trouvé');
+    if (empty($docs)) {
+        throw $this->createNotFoundException('Documentation abonnement non trouvée');
     }
 
-    return $this->render('documentation/show.subscription.html.twig', [
-        'sub' => $subs[0]
-    ]);
+    $sub = $docs[0]; // prendre le premier
+
+return $this->render('documentation/show.subscription.html.twig', [
+    'sub' => $sub
+]);
 }
 }
