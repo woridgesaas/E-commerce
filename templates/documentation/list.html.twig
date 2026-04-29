@@ -28,7 +28,7 @@
                 <div class="card p-3">
                     <h5>Offre {{ sub.subscriptionType }}</h5>
                     <p>{{ sub.summary }}</p>
-                    <a href="{{ path('subscription_show', {type: sub.subscriptionType}) }}" 
+                    <a href="{{ path('documentation_by_subscription', {type: sub.subscriptionType}) }}"
                        class="btn btn-primary">
                         Voir documentation
                     </a>

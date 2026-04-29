@@ -1,68 +1,39 @@
-{% extends 'base.html.twig' %}
+{% for item in cartItems %}
 
-{% block title %}Mon panier{% endblock %}
+    <div class="card mb-3 p-3">
 
-{% block body %}
+        {# 🔹 PRODUIT #}
+        {% if item.type == 'product' %}
 
-<section class="section section-padding">
-    <div class="container">
-
-        <h1 class="section-title text-center mb-5">Mon panier</h1>
-
-        {% if cartItems is empty %}
-            <p class="section-text text-center">
-                Votre panier est vide 
-            </p>
-        {% else %}
-
-        <div class="table-responsive">
-            <table class="table table-dark table-bordered text-center align-middle">
-
-                <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>Image</th>
-                        <th>Prix</th>
-                        <th>Quantité</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for item in cartItems %}
-                        <tr>
-                            <td>{{ item.product.name }}</td>
-
-                            <td>
-                                <img src="{{ asset('uploads/products/' ~ item.product.image) }}"
-                                     style="width:80px; height:80px; object-fit:cover;">
-                            </td>
-
-                            <td>{{ item.product.price }} DH</td>
-
-                            <td>{{ item.quantity }}</td>
-
-                            <td>{{ item.subtotal }} DH</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
-        </div>
-
-        <h3 class="text-end mt-4">
-            Total : <span class="text-purple">{{ total }} DH</span>
-        </h3>
+            <h5>{{ item.product.name }}</h5>
+            <p>Prix : {{ item.product.price }} MAD</p>
+            <p>Quantité : {{ item.quantity }}</p>
+            <p>Sous-total : {{ item.subtotal }} MAD</p>
 
         {% endif %}
 
-        <div class="text-center mt-4">
-            <a href="{{ path('app_home') }}" class="btn btn-primary">
-                Continuer mes achats
-            </a>
-        </div>
+        {# 🔹 ABONNEMENT #}
+        {% if item.type == 'subscription' %}
+
+            <h5>Abonnement #{{ item.id }}</h5>
+
+            <p>
+                Durée :
+                {{ item.duration ? item.duration ~ ' mois' : 'Non spécifiée' }}
+            </p>
+
+            <p class="text-warning">
+                ⚡ Prix sera calculé prochainement
+            </p>
+
+        {% endif %}
+
+        {# 🔹 bouton supprimer #}
+        <a href="{{ path('cart_remove', {key: item.key}) }}"
+           class="btn btn-danger btn-sm">
+            Supprimer
+        </a>
 
     </div>
-</section>
 
-{% endblock %}
+{% endfor %}
