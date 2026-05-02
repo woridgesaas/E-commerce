@@ -35,4 +35,28 @@ parameters:
             type: 'pgsql'
             password: '%env(DB_SERVER_MS_DOCUMENTS_PASS)%'
 
+        #>>>>>>>>>>>> External RH <<<<<<<<<<<<<<<<<<<
+
+        MS-INTERVIEW:
+            host: 'woridge.db.interview'
+            port: 1433
+            user: 'SA'
+            type: 'sqlsrv'
+            password: '%env(DB_SERVER_MS_INTERVIEW_PASS)%'
+
+        MS-JOBOFFRE:
+            host: 'woridge.db.offre'
+            port: 1433
+            user: 'SA'
+            type: 'sqlsrv'
+            password: '%env(DB_SERVER_MS_JOBOFFRE_PASS)%'
+
+
+        #>>>>>>>>>>>> Settings <<<<<<<<<<<<<<<<<<<
+        MS-SETTINGS:
+            host: 'woridge.db.settings'
+            port: 5432
+            user: admin
+            type: 'pgsql'
+            password: '%env(DB_SERVER_MS_SETTINGS_PASS)%'
 

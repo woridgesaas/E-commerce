@@ -1,4 +1,4 @@
-.PHONY: help build up down shell test test-unit test-all test-filter logs php composer
+.PHONY: help build up down shell test test-unit test-all test-filter logs php composer secret-set secret-list secret-reveal
 
 CONTAINER_PHP = symfony_app
 # Docker management
@@ -42,3 +42,23 @@ drop-database:
 
 custom-start:
 	docker compose --env-file .env.local up -d
+
+#>>> Secrets management
+secret-set:
+	@if [ -z "$(VAR)" ]; then \
+		echo " Error: VAR is required. Usage: make secret-set VAR=DB_PASSWORD"; \
+		exit 1; \
+	fi
+	@echo "Setting secret: $(VAR)"
+	docker exec -it $(CONTAINER_PHP) php bin/console secrets:set $(VAR)
+
+secret-list: ## List all secrets
+	docker exec -it $(CONTAINER_PHP) php bin/console secrets:list
+
+secret-reveal: ## Reveal a secret value
+	@if [ -z "$(VAR)" ]; then \
+		echo "Error: VAR is required. Usage: make secret-reveal VAR=DB_PASSWORD"; \
+		exit 1; \
+	fi
+	@echo "Revealing secret: $(VAR)"
+	docker exec -it $(CONTAINER_PHP) php bin/console secrets:reveal $(VAR)
