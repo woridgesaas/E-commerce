@@ -1,0 +1,38 @@
+parameters:
+    database_servers:
+        MS-AUTH:
+            host: 'woridge.db.auth'
+            port: 1433
+            user: 'SA'
+            type: 'sqlsrv'
+            password: '%env(DB_SERVER_MS_AUTH_PASS)%'
+
+        MS-NOTIF:
+            host: 'woridge.db.notification'
+            port: 1433
+            user: 'SA'
+            type: 'sqlsrv'
+            password: '%env(DB_SERVER_MS_NOTIFICATION_PASS)%'
+
+        MS-USER-INTERNAL:
+            host: 'woridge.db.userinternal'
+            port: 5432
+            user: admin
+            type: 'pgsql'
+            password: '%env(DB_SERVER_MS_INTERNAL_USER_PASS)%'
+
+        MS-ATTENDANCE:
+            host: 'woridge.db.attendance'
+            port: 5432
+            user: admin
+            type: 'pgsql'
+            password: '%env(DB_SERVER_MS_ATTENDANCE_PASS)%'
+
+        MS-ADMINISTRATIVE-DOCS:
+            host: 'woridge.db.documents'
+            port: 5432
+            user: admin
+            type: 'pgsql'
+            password: '%env(DB_SERVER_MS_DOCUMENTS_PASS)%'
+
+

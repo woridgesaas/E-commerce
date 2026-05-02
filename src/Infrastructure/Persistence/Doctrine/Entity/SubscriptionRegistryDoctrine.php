@@ -2,7 +2,10 @@
 
 namespace App\Infrastructure\Persistence\Doctrine\Entity;
 
+use App\Domain\Product\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'subscriptions_registry')]
@@ -25,6 +28,14 @@ class SubscriptionRegistryDoctrine
     #[ORM\Column(type: 'string', length: 100 , nullable: false)]
     private string $status;
 
+    #[ManyToOne(targetEntity: ProductDoctrine::class)]
+    #[ORM\JoinColumn(name: 'product_id', nullable: false)]
+    private ProductDoctrine $product;
+
+    #[OneToOne(targetEntity: CompanyProfileDoctrine::class)]
+    #[ORM\JoinColumn(name: 'company_id', nullable: false)]
+    private CompanyProfileDoctrine $company;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -38,6 +49,20 @@ class SubscriptionRegistryDoctrine
     public function getSubdomain(): string
     {
         return $this->subdomain;
+    }
+
+    /**
+     * @return ProductDoctrine
+     */
+    public function getProduct(): ProductDoctrine{
+        return $this->product;
+    }
+
+    /**
+     * @return CompanyProfileDoctrine
+     */
+    public function getCompany(): CompanyProfileDoctrine{
+        return $this->company;
     }
 
     public function setSubdomain(string $subdomain): void
@@ -75,5 +100,8 @@ class SubscriptionRegistryDoctrine
         $this->status = $status;
     }
 
-
+    public function setProduct (ProductDoctrine $pro):void
+    {
+        $this->product = $pro;
+    }
 }

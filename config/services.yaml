@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
+imports:
+    - { resource: '_infrastructure/database_servers.yaml' }
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -27,6 +29,10 @@ services:
     App\UI\Api\Internal\Tenant\Exception\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+    App\Application\EventListener\TenantModuleReadyEventListener:
+        tags:
+            - { name: kernel.event_listener , event: App\Application\Provisioning\Message\TenantModuleReadyEvent }
 
     # Binding explicite de l'interface vers l'implémentation
     App\Application\User\Port\PasswordHasherInterface:
@@ -58,6 +64,16 @@ services:
     App\Application\User\Service\PasswordResetMailerService:
         arguments:
             $fromEmail: '%env(MAILER_FROM)%'
+
+    App\Application\Provisioning\Command\ProvisioningCommandHandler:
+        arguments:
+            $subscriptionRepository: '@App\Infrastructure\Persistence\Doctrine\Repository\DoctrineTenantRepository'
+
+
+    App\Infrastructure\Provisioning\Strategy\SqlserverProvisioner:
+        tags: ['app.database_provisioner']
+    App\Infrastructure\Provisioning\Strategy\PostgreSqlProvisioner:
+        tags: ['app.database_provisioner']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
