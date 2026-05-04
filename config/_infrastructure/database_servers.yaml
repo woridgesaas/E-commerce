@@ -38,18 +38,18 @@ parameters:
         #>>>>>>>>>>>> External RH <<<<<<<<<<<<<<<<<<<
 
         MS-INTERVIEW:
-            host: 'woridge.db.interview'
+            host: 'woridge.db.auth' #just temp
             port: 1433
             user: 'SA'
             type: 'sqlsrv'
-            password: '%env(DB_SERVER_MS_INTERVIEW_PASS)%'
+            password: '%env(DB_SERVER_MS_AUTH_PASS)%' #just temp
 
         MS-JOBOFFRE:
-            host: 'woridge.db.offre'
+            host: 'woridge.db.auth' #just temp
             port: 1433
             user: 'SA'
             type: 'sqlsrv'
-            password: '%env(DB_SERVER_MS_JOBOFFRE_PASS)%'
+            password: '%env(DB_SERVER_MS_AUTH_PASS)%' #just temp
 
 
         #>>>>>>>>>>>> Settings <<<<<<<<<<<<<<<<<<<

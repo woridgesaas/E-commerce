@@ -1,5 +1,4 @@
 <?php
-// src/Domain/Product/ValueObject/ProductType.php
 namespace App\Domain\Product\ValueObject;
 
 enum ProductType: string
