@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => 'c0e1278bb42a3ae834f41181425c0e58f9963951',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => 'c0e1278bb42a3ae834f41181425c0e58f9963951',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -538,6 +538,15 @@
             'install_path' => __DIR__ . '/../staabm/side-effects-detector',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'symfony/amqp-messenger' => array(
+            'pretty_version' => 'v7.3.10',
+            'version' => '7.3.10.0',
+            'reference' => 'cd31e96df83f0a817899da19a756b73af49bf854',
+            'type' => 'symfony-messenger-bridge',
+            'install_path' => __DIR__ . '/../symfony/amqp-messenger',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/asset' => array(
             'pretty_version' => 'v7.3.10',

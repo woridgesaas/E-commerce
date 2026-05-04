@@ -49,6 +49,7 @@ return array(
     'Symfony\\Component\\Notifier\\' => array($vendorDir . '/symfony/notifier'),
     'Symfony\\Component\\Mime\\' => array($vendorDir . '/symfony/mime'),
     'Symfony\\Component\\Messenger\\Bridge\\Doctrine\\' => array($vendorDir . '/symfony/doctrine-messenger'),
+    'Symfony\\Component\\Messenger\\Bridge\\Amqp\\' => array($vendorDir . '/symfony/amqp-messenger'),
     'Symfony\\Component\\Messenger\\' => array($vendorDir . '/symfony/messenger'),
     'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => array($vendorDir . '/symfony/brevo-mailer'),
     'Symfony\\Component\\Mailer\\' => array($vendorDir . '/symfony/mailer'),

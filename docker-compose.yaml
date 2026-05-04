@@ -23,6 +23,7 @@ services:
       - mailer-network
       - woridge-global-network
       - woridge-ecomm-network
+      - provisioning-service-network
 
   woridge.nginx:
     image: nginx:stable
@@ -91,10 +92,14 @@ volumes:
 networks:
   mailer-network:
     external: true
+
   woridge-ecomm-network:
     external: true
   woridge-global-network:
     external: true
   admin-service-network:
     external: true
+
+  provisioning-service-network:
+      external: true
 
