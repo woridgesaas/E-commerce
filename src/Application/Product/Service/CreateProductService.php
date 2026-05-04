@@ -21,9 +21,8 @@ final class CreateProductService
             ProductStatus::Active,
             $input->type,
             $input->price,
-            $input->image
+            $input->image  // déjà uploadé par le controller
         );
-
         $this->repo->save($product);
     }
 }

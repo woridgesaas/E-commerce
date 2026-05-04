@@ -3,8 +3,8 @@
 namespace App\UI\Web\Exception;
 
 use App\Domain\Product\Exception\InvalidPriceException;
-use App\Domain\Product\Exception\InvalidProductNameException;
 use App\Domain\Product\Exception\InvalidProductDescriptionException;
+use App\Domain\Product\Exception\InvalidProductNameException;
 use App\Domain\Product\Exception\ProductNotFoundException;
 use App\Domain\User\Exception\InvalidEmailException;
 use App\Domain\User\Exception\InvalidUserNameException;
@@ -15,28 +15,40 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Twig\Environment;
 
 final class GlobalExceptionListener
 {
     public function __construct(
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly Environment $twig
     ) {}
 
     public function __invoke(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
 
-        // ProductNotFoundException → on la convertit en 404 Symfony
-        // pour afficher la page d'erreur standard (templates/bundles/TwigBundle/Exception/error404.html.twig)
+        // 403 - accès refusé
+        if ($exception instanceof AccessDeniedException) {
+            $html = $this->twig->render('errors/403.html.twig', [
+                'message' => "Vous n'avez pas les droits pour accéder à cette page."
+            ]);
+
+            $event->setResponse(new Response($html, 403));
+            return;
+        }
+
+        // ProductNotFoundException -> 404 Symfony
         if ($exception instanceof ProductNotFoundException) {
             $event->setThrowable(new NotFoundHttpException(
                 $exception->getMessage(),
                 $exception
             ));
-            return; // on laisse Symfony gérer l'affichage de la 404
+            return;
         }
 
-        // Erreurs de validation métier → flash + redirect vers la page précédente
+        // Erreurs métier de validation -> flash + redirect
         if (!$this->isValidationException($exception)) {
             return;
         }

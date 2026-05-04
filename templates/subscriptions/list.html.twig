@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <h2 class="mb-4">Documentation abonnements</h2>
+
+    <div class="row">
+        {% for sub in subs %}
+            <div class="col-md-4 mb-4">
+
+                <div class="card p-4 h-100 shadow-sm">
+
+                    <!-- TYPE -->
+                    <span class="badge bg-primary mb-2">
+                        {{ sub.subscriptionType }}
+                    </span>
+
+                    <!-- TITLE -->
+                    <h4 class="fw-bold">
+                        Offre {{ sub.subscriptionType }}
+                    </h4>
+
+                    <!-- SUMMARY -->
+                    <p class="text-muted">
+                        {{ sub.summary }}
+                    </p>
+
+                    <!-- TARGET -->
+                    <small class="text-info">
+                        👤 {{ sub.target }}
+                    </small>
+
+                    <!-- BUTTON -->
+                    <a href="{{ path('subscription_show', {type: sub.subscriptionType}) }}"
+                       class="btn btn-primary mt-3">
+                        Voir documentation
+                    </a>
+
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

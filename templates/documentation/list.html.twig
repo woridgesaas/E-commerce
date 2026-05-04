@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <h2>Documentation produits</h2>
+    <div class="row">
+        {% for doc in docs %}
+            <div class="col-md-4 mb-4">
+                <div class="card p-3">
+                    <h5>{{ doc.title }}</h5>
+                    <p>{{ doc.summary }}</p>
+                    <a href="{{ path('documentation_by_product', {productId: doc.productId}) }}" 
+                       class="btn btn-primary">
+                        Voir documentation
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <hr class="my-5">
+
+    <h2 class="mb-4">Documentation abonnements</h2>
+    <div class="row">
+        {% for sub in subscriptions %}
+            <div class="col-md-4 mb-4">
+                <div class="card p-3">
+                    <h5>Offre {{ sub.subscriptionType }}</h5>
+                    <p>{{ sub.summary }}</p>
+                    <a href="{{ path('documentation_by_subscription', {type: sub.subscriptionType}) }}"
+                       class="btn btn-primary">
+                        Voir documentation
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

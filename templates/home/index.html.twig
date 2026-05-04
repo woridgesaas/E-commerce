@@ -142,6 +142,7 @@
     </div>
 </section>
 
+
 <!-- ================= PRODUITS ================= -->
 <section id="product" class="section section-padding section-light">
     <div class="container text-center">
@@ -153,34 +154,33 @@
             sécurisées et adaptées aux besoins des entreprises modernes.
         </p>
 
-        <div class="row g-4 mt-4">
+      <div class="row g-4 mt-4">
 
-            {% for product in products %}
-                <div class="col-md-6">
-                    <div class="product-card">
+{% for product in products|slice(0, 2) %}
+<div class="col-md-6">
+    <div class="product-card">
 
-                        <img src="{{ asset('uploads/products/' ~ product.image) }}" class="product-image">
+        <img src="{{ asset('uploads/products/' ~ product.image) }}"
+             class="product-image">
 
-                        <div class="product-body">
+        <div class="product-body">
+            <h5>{{ product.name }}</h5>
 
-                            <h5>{{ product.type.value }}</h5>
+            <p>
+                {{ product.description|slice(0, 100) ~ '...' }}
+            </p>
 
-                            <p>
-                                {{ product.description|slice(0, 120) ~ '...' }}
-                            </p>
-
-                            <a href="{{ path('product_show', {id: product.id}) }}" class="btn btn-outline">
-                                Voir détails
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <p>Aucun produit disponible</p>
-            {% endfor %}
-
+            <a href="{{ path('product_show', {id: product.id}) }}"
+               class="btn btn-outline">
+                Voir détails
+            </a>
         </div>
+
+    </div>
+</div>
+{% endfor %}
+
+</div>
 
         <div class="mt-5 text-center">
             <a href="{{ path('product_list') }}" class="btn btn-primary btn-lg more-products-btn">
@@ -191,6 +191,32 @@
     </div>
 </section>
 
+<!-- ================= DOCUMENTATION ================= -->
+<section id="Documentation" class="section documentation-section-bg "
+    style="background-image: url('{{ asset('uploads/doc1.jpg') }}');">        <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-7 text-white">
+                <h2 class="section-title">Documentation technique</h2>
+
+                <p class="section-text mt-4">
+                    Découvrez en détail nos solutions RFID et SaaS.
+                </p>
+
+                <p class="section-text">
+                    Guides d’installation, spécifications techniques, recommandations…
+                    tout est conçu pour faciliter votre intégration.
+                </p>
+
+                <a href="{{ path('documentation_list') }}" 
+                   class="btn btn-primary mt-3">
+                    Voir toute la documentation
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
 <!-- ================= SERVICES ================= -->
 <section id="services" class="section section-padding">
     <div class="container text-center">
@@ -268,8 +294,10 @@
     avec simplicité, efficacité et sécurité.
 </p>
                         <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
-                    <a href="#" class="btn btn-outline w-100 mb-2">Choisir</a>
-                    <a href="#" class="btn btn-link doc-btn">Voir documentation</a>
+                    <a href="{{ path('subscription_show', {type: 'BASIC'}) }}" 
+   class="btn btn-outline w-100 mb-2">
+   Choisir
+</a>
                 </div>
             </div>
 
@@ -288,13 +316,15 @@
                     </ul>
 
                     <p class="plan-desc">
-    Idéal pour les entreprises en croissance souhaitant automatiser leurs فرآces RH, 
+    Idéal pour les entreprises en croissance souhaitant automatiser leurs  RH, 
     améliorer le recrutement et gagner en productivité grâce à des outils avancés.
 </p>
                         <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
 
-                    <a href="#" class="btn btn-primary w-100 mb-2">Choisir</a>
-                    <a href="#" class="btn btn-link doc-btn">Voir documentation</a>
+                    <a href="{{ path('subscription_show', {type: 'PRO'}) }}" 
+   class="btn btn-primary w-100 mb-2">
+   Choisir
+</a>
                 </div>
             </div>
 
@@ -316,8 +346,10 @@
 </p>
                         <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
 
-                    <a href="#" class="btn btn-dark w-100 mb-2">Choisir</a>
-                    <a href="#" class="btn btn-link doc-btn">Voir documentation</a>
+                    <a href="{{ path('subscription_show', {type: 'PREMIUM'}) }}" 
+   class="btn btn-dark w-100 mb-2">
+   Choisir
+</a>
                 </div>
             </div>
 

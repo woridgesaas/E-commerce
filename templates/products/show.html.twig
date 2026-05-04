@@ -1,8 +1,74 @@
-<h1>{{ product.name }}</h1>
+{% extends 'base.html.twig' %}
 
-<img src="{{ asset('uploads/products/' ~ product.image) }}" style="width:300px">
+{% block title %}{{ product.name }}{% endblock %}
 
-<p>{{ product.description }}</p>
+{% block body %}
 
-<p><strong>Type:</strong> {{ product.type.value }}</p>
-<p><strong>Prix:</strong> {{ product.price }} DH</p>
+<section class="section section-padding section-light show">
+    <div class="container">
+
+        <!-- ================= PRODUIT ================= -->
+        <div class="row align-items-center g-5">
+
+            <!-- IMAGE -->
+            <div class="col-lg-6 text-white">
+                <div class="product-card p-4 text-center">
+                    <img src="{{ asset('uploads/products/' ~ product.image) }}"
+                         class="img-fluid product-detail-image rounded">
+                </div>
+            </div>
+
+            <!-- DETAILS -->
+            <div class="col-lg-6">
+
+                <h2 class="section-title mb-3">
+                    {{ product.name }}
+                </h2>
+
+                <p class="section-text mb-4">
+                    {{ product.description }}
+                </p>
+
+                <div class="mb-3">
+                    <span class="badge bg-purple px-3 py-2">
+                        {{ product.type.value }}
+                    </span>
+                </div>
+
+                <h3 class="fw-bold mb-4 text-white">
+                    {{ product.price }} DH
+                </h3>
+
+                <div class="d-flex gap-3 align-items-center flex-wrap">
+
+                    {% if app.user %}
+                        <input type="number" id="qty" value="1" min="1"
+                               class="form-control" style="width:80px;">
+
+                        <a href="{{ path('app_cart_add', {id: product.id, qty: 1}) }}"
+                           class="btn btn-primary px-4"
+                           onclick="event.preventDefault();
+                           let q = document.getElementById('qty').value;
+                           window.location.href = this.href.replace('1', q);">
+
+                            <i class="bi bi-cart-plus me-2"></i>
+                            Ajouter au panier
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-primary px-4">
+                            Se connecter pour ajouter au panier
+                        </a>
+                    {% endif %}
+
+                    <a href="{{ path('app_home') }}" class="btn btn-outline px-4">
+                        Retour
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+     
+
+{% endblock %}

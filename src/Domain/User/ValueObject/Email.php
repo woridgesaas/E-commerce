@@ -13,7 +13,7 @@ final class Email
         $value = strtolower(trim($value));
 
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidEmailException();
+throw InvalidEmailException::becauseInvalidFormat($value);
         }
 
         $this->value = $value;

@@ -1,23 +1,39 @@
-{% extends 'base.html.twig' %}
+{% for item in cartItems %}
 
-{% block title %}Mon panier{% endblock %}
+    <div class="card mb-3 p-3">
 
-{% block body %}
+        {# 🔹 PRODUIT #}
+        {% if item.type == 'product' %}
 
-<section class="section section-padding text-center">
-    <div class="container">
+            <h5>{{ item.product.name }}</h5>
+            <p>Prix : {{ item.product.price }} MAD</p>
+            <p>Quantité : {{ item.quantity }}</p>
+            <p>Sous-total : {{ item.subtotal }} MAD</p>
 
-        <h1 class="section-title">Mon panier</h1>
+        {% endif %}
 
-        <p class="section-text mt-3">
-            Votre panier est actuellement vide.
-        </p>
+        {# 🔹 ABONNEMENT #}
+        {% if item.type == 'subscription' %}
 
-        <a href="{{ path('app_home') }}" class="btn btn-primary mt-4">
-            Continuer mes achats
+            <h5>Abonnement #{{ item.id }}</h5>
+
+            <p>
+                Durée :
+                {{ item.duration ? item.duration ~ ' mois' : 'Non spécifiée' }}
+            </p>
+
+            <p class="text-warning">
+                ⚡ Prix sera calculé prochainement
+            </p>
+
+        {% endif %}
+
+        {# 🔹 bouton supprimer #}
+        <a href="{{ path('cart_remove', {key: item.key}) }}"
+           class="btn btn-danger btn-sm">
+            Supprimer
         </a>
 
     </div>
-</section>
 
-{% endblock %}
+{% endfor %}
