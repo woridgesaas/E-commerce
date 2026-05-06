@@ -4,6 +4,8 @@ namespace App\Infrastructure\Service;
 
 use App\Application\User\Port\MailerPort;
 use App\Domain\User\Entity\User;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -15,7 +17,8 @@ final class SymfonyMailerAdapter implements MailerPort
         private MailerInterface $mailer,
         private Environment $twig,
         private UrlGeneratorInterface $router,
-        private string $fromEmail
+        private string $fromEmail,
+        private string $baseDomain
     ) {}
 
     public function sendPasswordReset(User $user, string $token): void
@@ -32,11 +35,30 @@ final class SymfonyMailerAdapter implements MailerPort
         ]);
 
         $email = (new Email())
-            ->from($this->fromEmail) 
+            ->from($this->fromEmail)
             ->to($user->getEmail()->value())
             ->subject('Reset Password')
             ->html($html);
 
+        $this->mailer->send($email);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function sendWelcomeActivation(User $user, string $token, string $subdomain): void
+    {
+        $email = (new TemplatedEmail())
+            ->from($this->fromEmail)
+            ->to($user->getEmail()->value())
+            ->subject('Bienvenue chez Woridge ! Activer votre espace')
+            ->htmlTemplate('tenant/welcome_activation.html.twig')
+            ->context([
+                'user' => $user,
+                'token' => $token,
+                'subdomain' => $subdomain,
+                'activationUrl' => "https://{$subdomain}.{$this->baseDomain}./activate?token={$token}"
+            ]);
         $this->mailer->send($email);
     }
 }
