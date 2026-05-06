@@ -14,7 +14,7 @@ class Subdomain
             throw new InvalidArgumentException("Subdomain cannot be empty.");
         }
 
-        if (!preg_match('/^[a-z0-9]+$/', $scheped)) {
+        if (!preg_match('/^[a-z0-9-_]+$/', $scheped)) {
             throw new InvalidArgumentException("Invalid subdomain format.");
         }
 

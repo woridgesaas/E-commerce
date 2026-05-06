@@ -12,13 +12,12 @@ final class User
     // Reset password fields live in the domain
     private ?string $resetToken = null;
     private ?\DateTimeImmutable $resetTokenExpiresAt = null;
-
     public function __construct(
         private UserName $firstName,
         private UserName $lastName,
         private Email    $email,
         private string   $password,
-        private string   $role = UserRole::USER->value 
+        private string   $role = UserRole::USER->value
     ) {}
 
     public static function reconstitute(

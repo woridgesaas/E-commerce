@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Bienvenue {{ user.firstName.value() }}  {{ user.lastName.value() }} !</h1>
+<p>Votre espace de travail <strong>{{ subdomain }}</strong> est prêt.</p>
+
+<p>Veuillez cliquer sur le bouton ci-dessous pour activer votre compte et choisir votre mot de passe :</p>
+
+<a href="{{ activationUrl }}"
+   style="background-color: #4CAF50; color: white; padding: 14px 25px; text-decoration: none; display: inline-block; border-radius: 4px;">
+    Activer mon compte
+</a>
+
+<p>Ce lien expirera dans 48 heures.</p>
+</body>
+</html>
