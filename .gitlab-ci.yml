@@ -30,15 +30,17 @@ build-job:
 test-job:
     stage: test
     before_script:
-        - "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
-        -  docker pull $IMAGE_NAME
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker pull $IMAGE_NAME
     script:
         - echo "Running unit tests..."
-        - docker run --rm $IMAGE_NAME php bin/phpunit --testsuite=Unit
+        # Installer dev deps to run tests
+        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_NAME composer install --no-interaction
+        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_NAME vendor/bin/phpunit --testsuite=Unit --log-junit var/log/phpunit.junit.xml
     artifacts:
         reports:
             junit: var/log/phpunit.junit.xml
-        expire_in: 30 days
+        expire_in: 10 days
 
 push-job:
     stage: push
