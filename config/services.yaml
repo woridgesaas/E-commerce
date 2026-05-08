@@ -36,6 +36,11 @@ services:
     App\Application\EventListener\TenantModuleReadyEventListener:
         tags:
             - { name: kernel.event_listener , event: App\Application\Provisioning\Message\TenantModuleReadyEvent }
+    App\Application\EventListener\TenantProvisioningFinishedEventListener:
+        tags:
+            - {name: kernel.event_listener , event : App\Application\Provisioning\Message\TenantProvisioningFinishedEvent}
+        arguments:
+            $repository: '@App\Infrastructure\Persistence\Doctrine\Repository\DoctrineTenantRepository'
 
     # Binding explicite de l'interface vers l'implémentation
     App\Application\User\Port\PasswordHasherInterface:

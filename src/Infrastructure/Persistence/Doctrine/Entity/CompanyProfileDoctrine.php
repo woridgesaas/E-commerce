@@ -29,6 +29,8 @@ class CompanyProfileDoctrine
     #[ORM\OneToOne(mappedBy: 'company', cascade: ['persist'])]
     private ?SubscriptionRegistryDoctrine $subscriptionRegistry = null;
 
+    #[ORM\OneToOne(targetEntity: UserDoctrine::class, inversedBy: 'companyProfile')]
+    private ?UserDoctrine $ceo=null;
     /**
      * @return int|null
      */
@@ -72,6 +74,13 @@ class CompanyProfileDoctrine
     /**
      * @param string|null $adresse
      */
+
+    /**
+     * @return UserDoctrine|null
+     */
+    public function getCeo(): ?UserDoctrine {
+        return $this->ceo;
+    }
     public function setAdresse(?string $adresse): void
     {
         $this->adresse = $adresse;
@@ -123,6 +132,15 @@ class CompanyProfileDoctrine
     public function setSubscriptionRegistry(?SubscriptionRegistryDoctrine $subscriptionRegistry): void
     {
         $this->subscriptionRegistry = $subscriptionRegistry;
+    }
+
+    /**
+     * @param UserDoctrine $ceo
+     * @return void
+     */
+    public function setCeo(UserDoctrine $ceo): void
+    {
+        $this->ceo = $ceo;
     }
 
 

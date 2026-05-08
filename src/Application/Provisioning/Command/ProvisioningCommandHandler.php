@@ -3,6 +3,7 @@
 namespace App\Application\Provisioning\Command;
 
 use App\Application\Provisioning\Message\TenantModuleReadyEvent;
+use App\Application\Provisioning\Message\TenantProvisioningFinishedEvent;
 use App\Domain\Provisioning\DatabaseConfigFactoryInterface;
 use App\Domain\Provisioning\Exception\SubscriptionNotFoundException;
 use App\Domain\Provisioning\Service\DatabaseProvisionerInterface;
@@ -48,5 +49,10 @@ class ProvisioningCommandHandler
                 )
             );
         }
+
+        /** provisioning finished now we will send account activation mail to ceo :) */
+        $this->eventDispatcher->dispatch(
+            new TenantProvisioningFinishedEvent($command->subscriptionId)
+        );
     }
 }

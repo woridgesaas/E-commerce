@@ -31,11 +31,13 @@ class UserDoctrine
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $resetToken = null;
 
+    #[ORM\OneToOne(targetEntity: CompanyProfileDoctrine::class, mappedBy: 'ceo' , cascade: ['persist'])]
+    private ? CompanyProfileDoctrine $companyProfile;
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $resetTokenExpiresAt = null;
 
     // --- Getters / Setters ---
-
+    public function getCompanyProfile(): ?CompanyProfileDoctrine { return $this->companyProfile; }
     public function getId(): ?int              { return $this->id; }
 
     public function getFirstName(): string     { return $this->firstName; }
@@ -55,7 +57,7 @@ class UserDoctrine
 
     public function getResetToken(): ?string   { return $this->resetToken; }
     public function setResetToken(?string $v): void { $this->resetToken = $v; }
-
+    public function setCompanyProfile(?CompanyProfileDoctrine $companyProfile): void { $this->companyProfile = $companyProfile; }
     public function getResetTokenExpiresAt(): ?\DateTimeImmutable { return $this->resetTokenExpiresAt; }
     public function setResetTokenExpiresAt(?\DateTimeImmutable $v): void { $this->resetTokenExpiresAt = $v; }
 }
