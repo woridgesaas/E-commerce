@@ -2,13 +2,15 @@
 
 namespace App\Infrastructure\Persistence\Doctrine\Entity;
 use App\Domain\Tenant\ValueObject\TokenValue;
+use App\Infrastructure\Persistence\Doctrine\Repository\DoctrineActivationTokenRepository;
+use App\Infrastructure\Persistence\Doctrine\Repository\DoctrineCompanyProfileRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: 'activation_tokens')]
 class ActivationTokenDoctrine
 {
-    public function __construct(string $tokenValue, \DateTimeImmutable $date, SubscriptionRegistryDoctrine $subscription)
+    public function __construct(string $tokenValue, \DateTimeImmutable $date, ?SubscriptionRegistryDoctrine $subscription)
     {
         $this->value = $tokenValue;
         $this->expireAt = $date;

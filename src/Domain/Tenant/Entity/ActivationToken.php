@@ -11,18 +11,28 @@ class ActivationToken
     private \DateTimeImmutable $expiresAt;
     private bool $used = false;
 
+    private Tenant $subscription;
+
     /**
      * @param TokenValue $value
      * @param \DateTimeImmutable $expiresAt
      * @param bool $used
      */
-    public function __construct(TokenValue $value, \DateTimeImmutable $expiresAt, bool $used)
+    public function __construct(TokenValue $value, \DateTimeImmutable $expiresAt, bool $used , Tenant $sub)
     {
         $this->value = $value;
         $this->expiresAt = $expiresAt;
         $this->used = $used;
+        $this->subscription = $sub;
     }
 
+    /**
+     * @return Tenant
+     */
+    public function getSubscription(): Tenant
+    {
+        return $this->subscription;
+    }
     public function getValue(): TokenValue
     {
         return $this->value;
