@@ -28,7 +28,7 @@ class WelcomeEmailTest extends Command
         $user = new User(firstName: new UserName("Woridge") , lastName: new UserName("Test User") , email:new Email("ahmedrdp2@gmail.com") ,password: "shhdsqddsq");
 
 
-        $subdomain = 'entreprise';
+        $subdomain = 'tesla';
 
         $io->title("Sending mail after validate paiment : $subdomain");
 

@@ -29,4 +29,22 @@ class TenantMapper
               used: false,
         );
     }
+    public function mapToPersistence(Tenant $domain, SubscriptionRegistryDoctrine $persistence): void
+    {
+
+        foreach ($domain->getActivationTokens() as $tokenVO) {
+
+            $tokenString = $tokenVO->getValue()->getValue();
+
+            if (!$persistence->hasToken($tokenString)) {
+                $tokenEntity = new ActivationTokenDoctrine(
+                    $tokenString,
+                    $tokenVO->getExpiresAt(),
+                    $persistence
+                );
+
+                $persistence->addActivationToken($tokenEntity);
+            }
+        }
+    }
 }

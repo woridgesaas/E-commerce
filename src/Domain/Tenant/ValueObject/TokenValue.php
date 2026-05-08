@@ -2,7 +2,6 @@
 
 namespace App\Domain\Tenant\ValueObject;
 
-use App\Domain\User\ValueObject\UserName;
 
 use Webmozart\Assert\Assert;
 final readonly class  TokenValue

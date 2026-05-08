@@ -83,6 +83,9 @@ services:
         arguments:
             $subscriptionRepository: '@App\Infrastructure\Persistence\Doctrine\Repository\DoctrineTenantRepository'
 
+    App\Application\Tenant\Service\WelcomeTenantService:
+        arguments:
+            $tenantRepository: '@App\Infrastructure\Persistence\Doctrine\Repository\DoctrineTenantRepository'
 
     App\Infrastructure\Provisioning\Strategy\SqlserverProvisioner:
         tags: ['app.database_provisioner']

@@ -53,5 +53,13 @@ class ActivationToken
         $this->used = $used;
     }
 
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getExpiresAt(): \DateTimeImmutable
+    {
+        return $this->expiresAt;
+    }
+
 
 }
