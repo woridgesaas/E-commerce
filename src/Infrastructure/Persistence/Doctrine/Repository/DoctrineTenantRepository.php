@@ -36,4 +36,14 @@ class DoctrineTenantRepository  implements TenantRepositoryInterface
         }
         return $this->mapper->toDomain($persistence);
     }
+
+    public function save(Tenant $tenant): void
+    {
+        $persistence = $this->entityManager
+            ->getRepository(SubscriptionRegistryDoctrine::class)
+            ->findOneBy(['subdomain' => $tenant->getSubdomain()->getValue()]);
+        $this->mapper->mapToPersistence($tenant, $persistence);
+        $this->entityManager->persist($persistence);
+        $this->entityManager->flush();
+    }
 }

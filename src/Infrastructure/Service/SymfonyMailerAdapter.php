@@ -57,7 +57,7 @@ final class SymfonyMailerAdapter implements MailerPort
                 'user' => $user,
                 'token' => $token,
                 'subdomain' => $subdomain,
-                'activationUrl' => "https://{$subdomain}.{$this->baseDomain}./activate?token={$token}"
+                'activationUrl' => "{$this->baseDomain}/woridge/onboarding?token={$token}"
             ]);
         $this->mailer->send($email);
     }

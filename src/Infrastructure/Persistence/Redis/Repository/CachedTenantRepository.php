@@ -29,4 +29,9 @@ class CachedTenantRepository implements TenantRepositoryInterface
         });
 
     }
+
+    public function save(Tenant $tenant): void
+    {
+        // TODO: Implement save() method.
+    }
 }

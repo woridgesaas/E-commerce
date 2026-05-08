@@ -3,9 +3,13 @@
 namespace App\Infrastructure\Persistence\Doctrine\Entity;
 
 use App\Domain\Product\Entity\Product;
+use App\Domain\Tenant\Entity\ActivationToken;
+use App\Domain\Tenant\ValueObject\TokenValue;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'subscriptions_registry')]
@@ -36,6 +40,9 @@ class SubscriptionRegistryDoctrine
     #[ORM\JoinColumn(name: 'company_id', nullable: false)]
     private CompanyProfileDoctrine $company;
 
+    #[ORM\OneToMany(targetEntity: ActivationTokenDoctrine::class , mappedBy: 'subscription' ,  cascade: ['persist'])]
+    /** @var Collection  $activationTokens*/
+    private Collection  $activationTokens;
     public function getId(): ?int
     {
         return $this->id;
@@ -103,5 +110,26 @@ class SubscriptionRegistryDoctrine
     public function setProduct (ProductDoctrine $pro):void
     {
         $this->product = $pro;
+    }
+
+    /**
+     * @param ActivationTokenDoctrine $token
+     * @return void
+     */
+    public function addActivationToken(ActivationTokenDoctrine $token): void
+    {
+        if (!$this->activationTokens->contains($token)) {
+            $this->activationTokens->add($token);
+            $token->setSubscription($this);
+        }
+    }
+
+    public function hasToken(string $tokenString):bool{
+        foreach ($this->activationTokens as $token) {
+            if ($token->getValue() === $tokenString) {
+                return true;
+            }
+        }
+        return false;
     }
 }
