@@ -3,13 +3,17 @@
 namespace App\Application\Tenant\Service;
 
 use App\Application\User\Port\MailerPort;
+use App\Domain\Tenant\Exception\TokenInvalidException;
+use App\Domain\Tenant\Repository\ActivationTokenRepositoryInterface;
 use App\Domain\Tenant\Service\ActivationGenerator;
 use App\Domain\Tenant\ValueObject\Subdomain;
+use App\Domain\Tenant\ValueObject\TokenValue;
 use App\Domain\User\Entity\User;
+use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 
 class WelcomeTenantService
 {
-    public function  __construct(private MailerPort $mailerPort , private ActivationGenerator $tokenGenerator)
+    public function  __construct(private MailerPort $mailerPort , private ActivationGenerator $tokenGenerator , private ActivationTokenRepositoryInterface $repository)
     {
 
     }
@@ -23,5 +27,18 @@ class WelcomeTenantService
             $tokenVO->getValue(),
             $subdomain->getValue(),
         );
+    }
+
+    public function checkToken(string $token):void{
+        $valueObject = new TokenValue($token);
+        $token = $this->repository->findByValue($valueObject);
+
+        if (!$token) {
+            throw new TokenNotFoundException("Provided token does not exist");
+        }
+        if ($token->isExpired() || $token->isUsed()) {
+            throw new TokenInvalidException("This activation token is invalid");
+        }
+
     }
 }

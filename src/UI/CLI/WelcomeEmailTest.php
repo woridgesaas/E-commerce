@@ -25,20 +25,18 @@ class WelcomeEmailTest extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // 1. On simule un User CEO (Assure-toi que ton entité Domaine peut être instanciée ainsi)
-        // Si ton entité User est complexe, utilise un Mock ou crée un objet simple
         $user = new User(firstName: new UserName("Woridge") , lastName: new UserName("Test User") , email:new Email("ahmedrdp2@gmail.com") ,password: "shhdsqddsq");
 
 
-        $subdomain = 'ehei-domain';
+        $subdomain = 'entreprise';
 
-        $io->title("Envoi d'un mail de test pour le tenant : $subdomain");
+        $io->title("Sending mail after validate paiment : $subdomain");
 
         try {
             $this->welcomeTenantService->execute($user, $subdomain);
-            $io->success("Le mail a été envoyé avec succès via Brevo !");
+            $io->success("Activating email was sent successfully!");
         } catch (\Exception $e) {
-            $io->error("Échec de l'envoi : " . $e->getMessage());
+            $io->error("Error while sending: " . $e->getMessage());
             return Command::FAILURE;
         }
 
