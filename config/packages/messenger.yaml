@@ -22,7 +22,17 @@ framework:
                         name : 'woridge.exchange'
                         type: topic
 
+            activing_account_ceo:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: messenger.transport.symfony_serializer
+                options:
+                    exchange:
+                        name: 'activing.account'
+                        type: direct
+
+
 
         routing:
             'App\Application\Provisioning\Command\ProvisioningCommand': provisioning
             'App\Application\Provisioning\Message\TenantModuleReadyEvent': tenant_ready
+            'App\Application\Tenant\Message\ActivateCeoAccountEvent': activing_account_ceo

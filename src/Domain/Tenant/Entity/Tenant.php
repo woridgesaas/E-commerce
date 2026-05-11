@@ -5,12 +5,15 @@ namespace App\Domain\Tenant\Entity;
 use App\Domain\Tenant\Enum\TenantStatus;
 use App\Domain\Tenant\ValueObject\Subdomain;
 use App\Domain\Tenant\ValueObject\TokenValue;
+use App\Domain\User\Entity\User;
 use DateTime;
 
 class Tenant
 {
     /** @var ActivationToken[] */
     private array $activationTokens = [];
+    private ?User $ceo = null;
+    private ?string $companyName = null;
     public function __construct(
         private Subdomain $subdomain,
         private \DateTimeImmutable $endDate,
@@ -30,13 +33,40 @@ class Tenant
         $this->activationTokens[] = new ActivationToken(
             $value,
             new \DateTimeImmutable("+48 hours"),
-            false // used = false
+            false, // used = false
+            sub:$this
         );
 
+    }
+    public function getCompanyName():string
+    {
+        return $this->companyName;
     }
     /** @return ActivationToken[] */
     public function getActivationTokens(): array
     {
         return $this->activationTokens;
     }
+
+    /**
+     * @param string $companyName
+     * @param string $ceoEmail
+     * @return $this to chain
+     */
+    public function setCeo(User $ceo): self
+    {
+        $this->ceo = $ceo;
+        return $this;
+    }
+    public function setCompanyName(string $companyName): self
+    {
+        $this->companyName = $companyName;
+        return $this;
+    }
+
+    public function getCeo(): ?User
+    {
+        return $this->ceo;
+    }
+
 }

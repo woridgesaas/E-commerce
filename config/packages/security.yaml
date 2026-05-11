@@ -16,24 +16,24 @@ security:
         internal_api:
             lazy: true
             stateless: true
-            pattern: '^/api/internal/'
+            pattern: '^/api/internall/'
             custom_authenticators:
                 - App\Infrastructure\Security\InternalApiKeyAuthenticator
 
 
-        main:
-            lazy: true
-            provider: app_user_provider
-
-            custom_authenticator: App\Infrastructure\Security\LoginAuthenticator
-
-            entry_point: App\Infrastructure\Security\LoginAuthenticator
-            form_login:
-                 use_referer: true
-
-            logout:
-                path: app_logout
-                target: app_login
+#        main:
+#            lazy: true
+#            provider: app_user_provider
+#
+#            custom_authenticator: App\Infrastructure\Security\LoginAuthenticator
+#
+#            entry_point: App\Infrastructure\Security\LoginAuthenticator
+#            form_login:
+#                use_referer: true
+#
+#            logout:
+#                path: app_logout
+#                target: app_login
 
     access_control:
         - { path: ^/api/internal, roles: ROLE_INTERNAL_MACHINE }

@@ -8,4 +8,5 @@ use App\Domain\Tenant\ValueObject\TokenValue;
 interface ActivationTokenRepositoryInterface
 {
     public function findByValue(TokenValue $value):?ActivationToken;
+    public function save(ActivationToken $activationToken):void;
 }
