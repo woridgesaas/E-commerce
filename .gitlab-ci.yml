@@ -1,0 +1,88 @@
+image: docker:24.0.5
+services:
+    - docker:24.0.5-dind
+
+stages:
+    - build
+    - test
+    - push
+    - deploy
+
+variables:
+    IMAGE_PHP: $CI_REGISTRY_IMAGE/php:$CI_COMMIT_SHA
+    IMAGE_NGINX: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
+    ECR_REGISTRY: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
+#keep docker engine alive between containers
+cache:
+    key: docker-cache
+    paths:
+        - /var/lib/docker
+
+
+build-job:
+    stage: build
+    before_script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    script:
+        - echo "Building & pushing Php image to gitlab registry..."
+        - docker build -t $IMAGE_PHP -f ./infra/php/Dockerfile .
+        - docker push $IMAGE_PHP
+
+        - echo "Building & pushing Nginx image to gitlab registry ..."
+        - docker build -t $IMAGE_NGINX -f ./infra/nginx/Dockerfile .
+        - docker push $IMAGE_NGINX
+
+test-job:
+    stage: test
+    before_script:
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker pull $IMAGE_PHP
+    script:
+        - echo "Running unit tests..."
+
+        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_PHP composer install --no-interaction
+
+        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_PHP vendor/bin/phpunit --testsuite=Unit --log-junit var/log/phpunit.junit.xml
+    artifacts:
+        reports:
+            junit: var/log/phpunit.junit.xml
+        expire_in: 10 days
+
+push-to-ecr:
+    stage: push
+    before_script:
+        - "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+        #install AWS cli to execute commands inside docker-dind alpine
+        - apk add --no-cache aws-cli
+        - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+    script:
+        - echo "Promoting images from GitLab Registry to AWS ECR..."
+        - docker pull $IMAGE_PHP
+        - docker pull $IMAGE_NGINX
+
+        - docker tag $IMAGE_PHP $ECR_REGISTRY/woridge/php:latest
+        - docker tag $IMAGE_NGINX $ECR_REGISTRY/woridge/nginx:latest
+
+        - docker push $ECR_REGISTRY/woridge/php:latest
+        - docker push $ECR_REGISTRY/woridge/nginx:latest
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+    when: on_success
+
+deploy-to-ecs:
+    stage: deploy
+    image:
+        name: amazon/aws-cli
+        entrypoint: [ "" ]
+    script:
+        - echo "Hooking ECS to retrieve last images from ECR ...."
+
+        #tell ECS servcie to rerun /update Task definition this will triger retrieving last images and interogate S3 bucket :)
+        - aws ecs update-service --cluster woridge-cluster --service woridge-ecommerce-service --force-new-deployment
+        - echo "Deployment in AWS Fargate ! ...."
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+    when: on_success

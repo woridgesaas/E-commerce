@@ -1,0 +1,39 @@
+{% for item in cartItems %}
+
+    <div class="card mb-3 p-3">
+
+        {# 🔹 PRODUIT #}
+        {% if item.type == 'product' %}
+
+            <h5>{{ item.product.name }}</h5>
+            <p>Prix : {{ item.product.price }} MAD</p>
+            <p>Quantité : {{ item.quantity }}</p>
+            <p>Sous-total : {{ item.subtotal }} MAD</p>
+
+        {% endif %}
+
+        {# 🔹 ABONNEMENT #}
+        {% if item.type == 'subscription' %}
+
+            <h5>Abonnement #{{ item.id }}</h5>
+
+            <p>
+                Durée :
+                {{ item.duration ? item.duration ~ ' mois' : 'Non spécifiée' }}
+            </p>
+
+            <p class="text-warning">
+                ⚡ Prix sera calculé prochainement
+            </p>
+
+        {% endif %}
+
+        {# 🔹 bouton supprimer #}
+        <a href="{{ path('cart_remove', {key: item.key}) }}"
+           class="btn btn-danger btn-sm">
+            Supprimer
+        </a>
+
+    </div>
+
+{% endfor %}

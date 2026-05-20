@@ -1,0 +1,123 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Réinitialisation{% endblock %}
+
+{% block content %}
+
+<h3 class="auth-title">Nouveau mot de passe</h3>
+
+{{ form_start(form) }}
+
+{# Password 1 #}
+<div class="mb-1 input-icon password-field">
+    <i class="bi bi-lock input-left-icon"></i>
+    {{ form_widget(form.password.first, {
+        'attr': {
+            'class': 'form-control',
+            'placeholder': 'Nouveau mot de passe'
+        }
+    }) }}
+    <span class="toggle-password">
+        <i class="bi bi-eye"></i>
+    </span>
+</div>
+
+{# Strength meter #}
+<div class="strength-meter mb-1">
+    <div id="strength-bar"></div>
+</div>
+<small id="strength-text" class="d-block mb-3"></small>
+
+{# Password confirmation #}
+<div class="mb-2 input-icon password-field">
+    <i class="bi bi-lock-fill input-left-icon"></i>
+    {{ form_widget(form.password.second, {
+        'attr': {
+            'class': 'form-control',
+            'placeholder': 'Confirmer le mot de passe'
+        }
+    }) }}
+    <span class="toggle-password">
+        <i class="bi bi-eye"></i>
+    </span>
+</div>
+
+{# Error match #}
+<small id="match-error" class="text-danger d-none d-block mb-2">
+    <i class="bi bi-exclamation-circle me-1"></i>
+    Les mots de passe ne correspondent pas
+</small>
+
+<div class="text-danger small mb-2">
+    {{ form_errors(form.password) }}
+</div>
+
+<button class="auth-btn mt-2">
+    <i class="bi bi-check-circle me-2"></i>Changer
+</button>
+
+{{ form_end(form) }}
+
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const password = document.querySelector('input[name$="[first]"]');
+    const confirmPassword = document.querySelector('input[name$="[second]"]');
+    const bar = document.getElementById("strength-bar");
+    const text = document.getElementById("strength-text");
+    const matchError = document.getElementById("match-error");
+
+    if (password && bar && text) {
+        password.addEventListener("input", () => {
+            let strength = 0;
+            const val = password.value;
+
+            if (val.length >= 8) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[a-z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[\W]/.test(val)) strength++;
+
+            const percent = (strength / 5) * 100;
+            bar.style.width = percent + "%";
+
+            if (strength <= 2) {
+                bar.style.background = "#ef4444";
+                text.textContent = "Faible";
+                text.style.color = "#ef4444";
+            } else if (strength <= 4) {
+                bar.style.background = "orange";
+                text.textContent = "Moyen";
+                text.style.color = "orange";
+            } else {
+                bar.style.background = "#22c55e";
+                text.textContent = "Fort";
+                text.style.color = "#22c55e";
+            }
+        });
+    }
+
+    if (confirmPassword && password && matchError) {
+        confirmPassword.addEventListener("input", () => {
+            matchError.classList.toggle(
+                "d-none",
+                confirmPassword.value === password.value
+            );
+        });
+    }
+
+    document.querySelectorAll('.toggle-password').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const wrapper = toggle.closest('.password-field');
+            const input = wrapper.querySelector('input');
+            const icon = toggle.querySelector('i');
+
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            icon.className = isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    });
+});
+</script>
+{% endblock %}

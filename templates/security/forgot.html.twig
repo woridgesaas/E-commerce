@@ -1,0 +1,27 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block content %}
+
+<h3 class="auth-title"> Mot de passe oublié</h3>
+<p class="auth-subtitle">Entrez votre email pour recevoir un lien</p>
+
+{% for msg in app.flashes('success') %}
+    <div class="alert alert-success py-2 small">{{ msg }}</div>
+{% endfor %}
+
+<form method="post" action="{{ path('app_forgot_password') }}">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required>
+    </div>
+
+    <button class="auth-btn">Envoyer</button>
+</form>
+
+<div class="text-center mt-3">
+    <a href="{{ path('app_login') }}" class="auth-link">← Retour</a>
+</div>
+
+{% endblock %}

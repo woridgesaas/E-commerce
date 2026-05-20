@@ -1,0 +1,52 @@
+{% extends 'base_auth.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<div class="auth-header mb-3">
+   <a href="{{ path('app_home') }}" class="back-circle">
+    <i class="bi bi-arrow-left">  Retour à l'accueil</i>
+</a>
+</div>
+
+<h3 class="auth-title"> Connexion</h3>
+
+{% if error %}
+    <div class="alert alert-danger py-2 small">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
+
+{% for msg in app.flashes('success') %}
+    <div class="alert alert-success py-2 small">{{ msg }}</div>
+{% endfor %}
+
+<form method="post" action="{{ path('app_login') }}">
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="_username" class="form-control"
+               value="{{ last_username }}" required autofocus>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mot de passe</label>
+        <input type="password" name="_password" class="form-control" required>
+    </div>
+
+    <div class="mb-3 text-end">
+        <a href="{{ path('app_forgot_password') }}" class="auth-link">
+            Mot de passe oublié ?
+        </a>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button class="auth-btn">Se connecter</button>
+    
+</form>
+
+<div class="text-center mt-3">
+    Pas de compte ? <a href="{{ path('app_register') }}" class="auth-link">S'inscrire</a>
+</div>
+
+{% endblock %}

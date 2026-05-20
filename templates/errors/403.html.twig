@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}403 - Accès refusé{% endblock %}
+
+{% block body %}
+<div class="container py-5 text-center">
+    <h1 class="section-title mb-3">403 - Accès refusé</h1>
+    <p class="section-text mb-4">
+        {{ message }}
+    </p>
+    <a href="{{ path('app_home') }}" class="btn btn-primary">
+        Retour à l'accueil
+    </a>
+</div>
+{% endblock %}

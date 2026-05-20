@@ -1,0 +1,45 @@
+{# templates/products/list.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Produits - Woridge{% endblock %}
+
+{% block body %}
+{# Ajoute "show" pour forcer l'affichage ↓ #}
+<section class="section show section-padding">
+    <div class="container">
+        <h2 class="section-title text-center">Tous nos produits RFID</h2>
+
+        <div class="row g-4 mt-4">
+            {% for product in products %}
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="{{ asset('uploads/products/' ~ product.image) }}"
+                         class="product-image" alt="{{ product.name }}">
+                    <div class="product-body">
+                        <h5>{{ product.name }}</h5>
+                        <p>{{ product.description|slice(0, 100) ~ '...' }}</p>
+                        <a href="{{ path('product_show', {id: product.id}) }}"
+                           class="btn btn-outline">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+{# Ou ajoute le script d'animation ici si tu veux l'effet scroll #}
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('show');
+        });
+    }, { threshold: 0.1 });
+    sections.forEach(s => observer.observe(s));
+});
+</script>
+{% endblock %}
