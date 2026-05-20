@@ -1,14 +1,14 @@
 FROM php:8.4-fpm AS base
 
 RUN apt-get update && apt-get install -y \
-    curl git unzip zip librabbitmq-dev \
-    && rm -rf /var/lib/apt/lists/*
+    curl git unzip zip librabbitmq-dev ca-certificates gnupg2 \
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "ipv4" >> ~/.curlrc \
+        && echo "retry = 5" >> ~/.curlrc \
+        && echo "retry-delay = 3" >> ~/.curlrc
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
-RUN echo "retry = 5" >> ~/.curlrc && \
-    echo "retry-delay = 3" >> ~/.curlrc && \
-    echo "tlsv1.2" >> ~/.curlrc
 
 RUN install-php-extensions opcache iconv soap zip intl fileinfo pdo redis mysqli pdo_mysql gd sqlsrv pdo_sqlsrv pdo_pgsql amqp
 
