@@ -66,6 +66,7 @@ push-to-ecr:
 
         - docker push $ECR_REGISTRY/woridge-php:$CI_COMMIT_SHORT_SHA
         - docker push $ECR_REGISTRY/woridge-nginx:$CI_COMMIT_SHORT_SHA
-    only:
-        - main
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
     when: on_success
