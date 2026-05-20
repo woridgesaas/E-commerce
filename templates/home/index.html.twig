@@ -15,7 +15,7 @@
             </h1>
 
             <p class="hero-subtitle mt-3">
-    Une plateforme SaaS tout-en-un pour digitaliser votre entreprise, 
+    Une plateforme SaaS tout-en-un pour digitaliser votre entreprise,
     automatiser vos processus RH et améliorer votre performance grâce à l’intelligence artificielle.
 </p>
 
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-     
+
 
     </div>
 </section>
@@ -79,13 +79,13 @@
             <div class="col-lg-7">
                 <h2 class="section-title">À propos de nous</h2>
                 <p class="section-text mt-4">
-    Woridge est une solution SaaS innovante dédiée à la transformation digitale des entreprises. 
-    Nous accompagnons les organisations dans l’optimisation de leurs processus RH, 
+    Woridge est une solution SaaS innovante dédiée à la transformation digitale des entreprises.
+    Nous accompagnons les organisations dans l’optimisation de leurs processus RH,
     l’automatisation des tâches opérationnelles et l’intégration de solutions intelligentes.
 </p>
 
 <p class="section-text">
-    Notre mission est de vous offrir une plateforme performante, sécurisée et évolutive 
+    Notre mission est de vous offrir une plateforme performante, sécurisée et évolutive
     pour <strong>maximiser votre productivité et accélérer votre croissance</strong>.
 </p>
 
@@ -150,7 +150,7 @@
         <h2 class="section-title">Produits RFID</h2>
 
         <p class="section-text mx-auto">
-            Optimisez la gestion des accès et du pointage grâce à nos solutions RFID fiables, 
+            Optimisez la gestion des accès et du pointage grâce à nos solutions RFID fiables,
             sécurisées et adaptées aux besoins des entreprises modernes.
         </p>
 
@@ -208,7 +208,7 @@
                     tout est conçu pour faciliter votre intégration.
                 </p>
 
-                <a href="{{ path('documentation_list') }}" 
+                <a href="{{ path('documentation_list') }}"
                    class="btn btn-primary mt-3">
                     Voir toute la documentation
                 </a>
@@ -223,7 +223,7 @@
         <h2 class="section-title">Nos Services</h2>
 
         <p class="section-text">
-    Une suite complète de services conçus pour optimiser vos processus, 
+    Une suite complète de services conçus pour optimiser vos processus,
     améliorer votre efficacité et soutenir la croissance de votre entreprise.
 </p>
 
@@ -266,100 +266,104 @@
 </section>
 
 <!-- ================= PLANS ================= -->
-<section id="plans" class="section section-padding section-light">
-    <div class="container text-center">
+    <section id="plans" class="section section-padding section-light">
+        <div class="container text-center">
 
-        <h2 class="section-title">Nos Abonnements</h2>
+            <h2 class="section-title">Nos Abonnements</h2>
+            <p class="section-text mx-auto" style="max-width: 700px;">
+                Choisissez l’abonnement qui correspond à vos besoins et profitez d’une solution SaaS
+                performante, évolutive et accessible à tout moment, sans contrainte d’installation.
+            </p>
 
-        <p class="section-text mx-auto" style="max-width: 700px;">
-    Choisissez l’abonnement qui correspond à vos besoins et profitez d’une solution SaaS 
-    performante, évolutive et accessible à tout moment, sans contrainte d’installation.
-</p>
+            <div class="row g-4 mt-4">
 
-        <div class="row g-4 mt-5">
+                <!-- BASIC -->
+                <div class="col-md-4">
+                    <div class="plan-card">
+                        <h4>Basique</h4>
+                        <ul>
+                            <li><i class="bi bi-people-fill"></i> Gestion complète des employés</li>
+                            <li><i class="bi bi-folder-symlink-fill"></i> Documents administratifs centralisés</li>
+                            <li><i class="bi bi-receipt"></i> Fiches de paie automatisées</li>
+                            <li><i class="bi bi-calendar-check-fill"></i> Gestion des présences & absences</li>
+                        </ul>
+                        <p class="plan-desc">
+                            Idéal pour structurer votre RH au quotidien : employés, documents, paie et suivi des temps.
+                            Une base solide pour démarrer en toute sérénité.
+                        </p>
+                        <div class="duration-chips">
+                            <span class="chip">1 mois</span>
+                            <span class="chip">3 mois</span>
+                            <span class="chip">6 mois</span>
+                            <span class="chip">1 an</span>
+                        </div>
+                        <a href="{{ path('subscription_show', {type: 'BASIC'}) }}"
+                           class="btn btn-outline w-100">
+                            Choisir <i class="bi bi-arrow-right-short"></i>
+                        </a>
+                    </div>
+                </div>
 
-            <!-- BASIC -->
-            <div class="col-md-4">
-                <div class="plan-card">
-                    <h4>Basique</h4>
+                <!-- PRO -->
+                <div class="col-md-4">
+                    <div class="plan-card featured">
+                    <span class="badge-plan">
+                        <i class="bi bi-stars"></i> Populaire
+                    </span>
+                        <h4>Pro</h4>
+                        <ul>
+                            <li><i class="bi bi-people-fill"></i> Toutes les fonctionnalités Basique</li>
+                            <li><i class="bi bi-megaphone-fill"></i> Offres d’emploi sur site vitrine</li>
+                            <li><i class="bi bi-chat-dots-fill"></i> Gestion des candidatures & entretiens</li>
+                            <li><i class="bi bi-file-earmark-text-fill"></i> Génération de contrats</li>
+                            <li><i class="bi bi-robot"></i> Assistant RH virtuel inclus</li>
+                        </ul>
+                        <p class="plan-desc">
+                            Passez à la vitesse supérieure : recrutement digital, gestion des talents et assistance IA
+                            pour un gain de productivité exceptionnel.
+                        </p>
+                        <div class="duration-chips">
+                            <span class="chip">1 mois</span>
+                            <span class="chip">3 mois</span>
+                            <span class="chip">6 mois</span>
+                            <span class="chip">1 an</span>
+                        </div>
+                        <a href="{{ path('subscription_show', {type: 'PRO'}) }}"
+                           class="btn btn-primary w-100">
+                            Choisir <i class="bi bi-arrow-right-short"></i>
+                        </a>
+                    </div>
+                </div>
 
-                    <ul>
-                        <li> Gestion des employés</li>
-                        <li> Suivi simple des données RH</li>
-                        <li> Accès sécurisé</li>
-                    </ul>
-
-                    <p class="plan-desc">
-    Une solution essentielle pour démarrer la digitalisation de votre gestion RH 
-    avec simplicité, efficacité et sécurité.
-</p>
-                        <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
-                    <a href="{{ path('subscription_show', {type: 'BASIC'}) }}" 
-   class="btn btn-outline w-100 mb-2">
-   Choisir
-</a>
+                <!-- PREMIUM -->
+                <div class="col-md-4">
+                    <div class="plan-card">
+                        <h4>Premium</h4>
+                        <ul>
+                            <li><i class="bi bi-gem-fill"></i> Tout Basique + Pro</li>
+                            <li><i class="bi bi-chat-fill"></i> Communication interne en temps réel</li>
+                            <li><i class="bi bi-magic"></i> Recrutement automatisé avec filtrage IA des CV</li>
+                            <li><i class="bi bi-shield-check"></i> Support prioritaire & personnalisation avancée</li>
+                        </ul>
+                        <p class="plan-desc">
+                            La solution ultime pour les grandes entreprises : recrutement intelligent,
+                            collaboration instantanée et accompagnement premium. Transformez votre RH en un levier de performance.
+                        </p>
+                        <div class="duration-chips">
+                            <span class="chip">1 mois</span>
+                            <span class="chip">3 mois</span>
+                            <span class="chip">6 mois</span>
+                            <span class="chip">1 an</span>
+                        </div>
+                        <a href="{{ path('subscription_show', {type: 'PREMIUM'}) }}"
+                           class="btn btn-dark w-100">
+                            Choisir <i class="bi bi-arrow-right-short"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <!-- PRO -->
-            <div class="col-md-4">
-                <div class="plan-card featured">
-                    <span class="badge-plan">Populaire</span>
-
-                    <h4>Pro</h4>
-
-                    <ul>
-                        <li> Gestion des employés</li>
-                        <li> Recrutement automatisé</li>
-                        <li> Assistant virtuel</li>
-                        <li> Site vitrine (non personnalisé)</li>
-                    </ul>
-
-                    <p class="plan-desc">
-    Idéal pour les entreprises en croissance souhaitant automatiser leurs  RH, 
-    améliorer le recrutement et gagner en productivité grâce à des outils avancés.
-</p>
-                        <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
-
-                    <a href="{{ path('subscription_show', {type: 'PRO'}) }}" 
-   class="btn btn-primary w-100 mb-2">
-   Choisir
-</a>
-                </div>
-            </div>
-
-            <!-- PREMIUM -->
-            <div class="col-md-4">
-                <div class="plan-card">
-                    <h4>Premium</h4>
-
-                    <ul>
-                        <li> Tous les services Basique + Pro</li>
-                        <li> Assistant IA avancé</li>
-                        <li> Site vitrine personnalisé</li>
-                        <li> Communication interne</li>
-                    </ul>
-
-                    <p class="plan-desc">
-    Une solution haut de gamme offrant une personnalisation avancée, 
-    une gestion complète et une communication interne optimisée pour les grandes entreprises.
-</p>
-                        <p class="plan-duration">Durées : 1 mois / 3 mois / 6 mois / 1 an</p>
-
-                    <a href="{{ path('subscription_show', {type: 'PREMIUM'}) }}" 
-   class="btn btn-dark w-100 mb-2">
-   Choisir
-</a>
-                </div>
-            </div>
-
         </div>
-
-       
-
-    </div>
-</section>
-
+    </section>
 {% endblock %}
 
 {% block scripts %}
