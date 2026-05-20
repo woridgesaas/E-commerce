@@ -1,16 +1,19 @@
 FROM php:8.4-fpm AS base
 
 RUN apt-get update && apt-get install -y \
-    curl git unzip zip librabbitmq-dev ca-certificates gnupg2 \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "ipv4" >> ~/.curlrc \
-        && echo "retry = 5" >> ~/.curlrc \
-        && echo "retry-delay = 3" >> ~/.curlrc
+    curl git unzip zip librabbitmq-dev \
+    g++ make unixodbc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 
-RUN install-php-extensions opcache iconv soap zip intl fileinfo pdo redis mysqli pdo_mysql gd sqlsrv pdo_sqlsrv pdo_pgsql amqp
+RUN install-php-extensions opcache iconv soap zip intl fileinfo pdo redis mysqli pdo_mysql gd pdo_pgsql amqp
+
+ENV ACCEPT_EULA=Y
+RUN pecl install sqlsrv pdo_sqlsrv && \
+    docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 FROM base AS build
 
