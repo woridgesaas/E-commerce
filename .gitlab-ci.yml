@@ -40,9 +40,10 @@ test-job:
         - docker pull $IMAGE_PHP
     script:
         - echo "Running unit tests..."
-        # Installer dev deps to run tests
-        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_NAME composer install --no-interaction
-        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_NAME vendor/bin/phpunit --testsuite=Unit --log-junit var/log/phpunit.junit.xml
+
+        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_PHP composer install --no-interaction
+
+        - docker run --rm -v $CI_PROJECT_DIR:/app -w /app $IMAGE_PHP vendor/bin/phpunit --testsuite=Unit --log-junit var/log/phpunit.junit.xml
     artifacts:
         reports:
             junit: var/log/phpunit.junit.xml
