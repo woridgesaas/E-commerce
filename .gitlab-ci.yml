@@ -82,3 +82,7 @@ deploy-to-ecs:
         #tell ECS servcie to rerun /update Task definition this will triger retrieving last images and interogate S3 bucket :)
         - aws ecs update-service --cluster woridge-cluster --service woridge-ecommerce-service --force-new-deployment
         - echo "Deployment in AWS Fargate ! ...."
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+    when: on_success
