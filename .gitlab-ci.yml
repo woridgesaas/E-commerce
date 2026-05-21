@@ -6,6 +6,7 @@ stages:
     - build
     - test
     - push
+    - configure
     - deploy
 
 variables:
@@ -72,6 +73,18 @@ push-to-ecr:
         - if: $CI_COMMIT_BRANCH == "main"
     when: on_success
 
+configure-env:
+    stage: configure
+    image:
+        name: amazon/aws-cli
+        entrypoint: [ "" ]
+    script:
+        - echo "Deploy production configuration into S3 ...."
+        - aws s3 cp ./.env.prod s3://woridge-ecommerce-config/prod.env
+    rules:
+        - if: $CI_COMMIT_BRANCH == "main"
+    dependencies: []
+
 deploy-to-ecs:
     stage: deploy
     image:
@@ -84,3 +97,6 @@ deploy-to-ecs:
     rules:
         - if: $CI_COMMIT_BRANCH == "main"
     when: on_success
+
+
+
