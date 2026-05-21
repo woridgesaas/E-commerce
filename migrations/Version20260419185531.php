@@ -27,6 +27,6 @@ final class Version20260419185531 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE subscriptions_registry');
-        $this->addSql('DROP INDEX UNIQ_1483A5E9E7927C74 ON users');
+        #$this->addSql('DROP INDEX UNIQ_1483A5E9E7927C74 ON users');
     }
 }
