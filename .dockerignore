@@ -1,5 +1,6 @@
 # Git
 .git
+.gitlab
 .gitignore
 Makefile
 # Docker
@@ -8,13 +9,13 @@ Dockerfile
 .dockerignore
 
 # Symfony
-#/var/
-#/vendor/
+/var/
+/vendor/
 
 
 # Env files
-#.env.local
-#.env.*.local
+.env.local
+.env.*.local
 
 # Tests / cache
 .phpunit.result.cache

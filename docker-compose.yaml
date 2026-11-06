@@ -9,6 +9,7 @@ services:
       dockerfile: infra/php/Dockerfile
     volumes:
       - ./:/var/www/html:cached
+      - /var/www/html/vendor
     env_file:
       - .env
       - .env.local
